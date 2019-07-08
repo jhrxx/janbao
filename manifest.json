@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "author": "jhrxx",
+    "name": "janbao",
+    "description": "小破站",
+    "version": "1.0.0",
+    "icons": {
+        "48": "icon.png",
+        "96": "icon.png"
+    },
+    "web_accessible_resources": ["images/emotion/*.png","images/emotion/*.gif", "images/frame/*.png"],
+    "content_scripts": [{
+        "matches": ["*://*.janbao.net/*"],
+        "css": [ "janbao-dark-theme.css" ],
+        "js": ["janbao.js"]
+    },{
+        "matches": ["*://*.jandan.net/*"],
+        "css": [ "jandan-dark-theme.css" ],
+        "js": ["jandan.js"]
+    }]
+}
