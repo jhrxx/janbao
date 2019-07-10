@@ -9,22 +9,21 @@
         "96": "icon.png"
     },
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["src/js/background.js"]
     },
-    "web_accessible_resources": ["images/emotion/*.png","images/emotion/*.gif", "images/frame/*.png"],
+    "web_accessible_resources": ["src/images/*","src/js/*", "src/css/*"],
     "content_scripts": [{
         "matches": ["*://janbao.net/*"],
-        "css": [ "janbao-dark-theme.css" ],
-        "js": ["janbao.js"]
+        "css": [ "src/css/janbao-dark-theme.css" ],
+        "js": ["src/js/content_script.js"]
     },{
         "matches": ["*://*.jandan.net/*"],
-        "css": [ "jandan-dark-theme.css" ],
-        "js": ["jandan.js"]
+        "css": [ "src/css/jandan-dark-theme.css" ],
+        "js": ["src/js/content_script.js"]
     }],
     "permissions": [
         "*://janbao.net/*",
         "*://jandan.net/*",
-        "*://*.jandan.net/*",
-        "webNavigation"
+        "*://*.jandan.net/*"
     ]
 }

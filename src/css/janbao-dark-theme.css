@@ -33,8 +33,12 @@ html.dark body .DataList .Item {
   border-color: #343434 !important;
 }
 
+html.dark body .DataList .Item.Mine {
+  background-color: #343434 !important;
+}
+
 html.dark body .DataList .Item.Read {
-  background-color: #1c1c1c;
+  background-color: #343434 !important;
 }
 
 html.dark body .DataList .Item li.CommentForm {
@@ -158,6 +162,22 @@ html.dark body .Button:hover {
   color: #d3d3d3 !important;
   text-decoration: none;
   border: 1px solid #343434 !important;
+}
+
+html.dark body .Sprite.Sprite16.SpNotifications {
+  background-position: -32px -212px;
+}
+
+html.dark body .Sprite.Sprite16.SpInbox {
+  background-position: 0 -227px;
+}
+
+html.dark body .Sprite.Sprite16.SpBookmarks {
+  background-position: -80px -244px;
+}
+
+html.dark body .Sprite.Sprite16.SpOptions {
+  background-position: 0 -211px;
 }
 
 #Head .Row {
