@@ -34,7 +34,9 @@ function bindUserStyle(){
         localStorage.setItem('theme','default')
     }
 
-    document.querySelectorAll("#Head .Row")[0].insertAdjacentHTML('beforeend', '<ul class="right-menu"><li><a class="default">原版</a></li><li><a class="dark">夜间</a></li></ul>');
+    if(document.querySelector('#theme')){
+      document.querySelectorAll("#Head .Row")[0].insertAdjacentHTML('beforeend', '<ul id="theme" class="SiteMenu"><li><a class="default">原版</a></li><li><a class="dark">夜间</a></li></ul>');
+    }
     
     // if(_temp === null || _temp === "default"){
     //     $("[user-style=true]").attr("disabled",true);
