@@ -6,9 +6,14 @@ $border: #d5c7c2;
 $primary: #30c39e;
 $text: #9c9c9c;
 $t: #d3d3d3;
-$link-hover: #dad26e;
-$link: #7e7349;
+$a: #fdfdfd;
 
+$link-hover: #dad26e;
+$dark-yellow: #ac885b;
+$yellow: #cda869;
+$light-yellow:#f9ee98;
+$link: #7e7349;
+$brage: #ae1d18;
 
 %bg {
   color: $text;
@@ -21,7 +26,7 @@ $link: #7e7349;
   background-color: $bg !important;
 }
 
-html {
+html.dark {
   ::selection {
     background: $divider;
   }
@@ -30,12 +35,6 @@ html {
     @extend %bg;
     #Frame {
       @extend %bg;
-    }
-    #Head {
-      .Row {
-        display: flex;
-        justify-content: space-between;
-      }
     }
     .DataList {
       background: $dark-bg;
@@ -56,6 +55,10 @@ html {
           }
         }
       }
+      .Meta strong{
+        color: $a;
+        background-color: $brage;
+      }
     }
     #Panel {
       .Box {
@@ -75,15 +78,16 @@ html {
       }
     }
     a {
-      color: $link !important;
+      color: $yellow !important;
       cursor: pointer;
       font-weight: normal !important;
       &:hover {
+        color: $light-yellow !important;
         text-decoration: underline;
       }
       &:link,
       &:active， &:visited {
-        color: $link !important;
+        color: $dark-yellow !important;
       }
     }
     .PanelInfo {
@@ -120,6 +124,12 @@ html {
         border-color: $divider;
       }
     }
+    #DiscussionForm form{
+      background: 0;
+      label{
+        color: $a;
+      }
+    }
     #Form_Comment{
       textarea {
         @extend %input;
@@ -134,5 +144,36 @@ html {
     textarea {
       @extend %input;
     }
+    .Button{
+      appearance: none;
+      border-radius: .25em;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 6px 12px;
+      position: relative;
+      user-select: none;
+      vertical-align: middle;
+      white-space: nowrap;
+      color: $a !important;
+      border: 1px solid #9c9c9c !important;
+      background: linear-gradient(#202020, #181818) !important;
+      &:hover{
+        color: $t !important;
+        text-decoration: none;
+        border: 1px solid $divider !important;
+      }
+    }
+  }
+}
+
+#Head {
+  .Row {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+#theme{
+  a{
+    cursor: pointer;
   }
 }

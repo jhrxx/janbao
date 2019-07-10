@@ -22,6 +22,9 @@
         "js": ["jandan.js"]
     }],
     "permissions": [
+        "*://janbao.net/*",
+        "*://jandan.net/*",
+        "*://*.jandan.net/*",
         "webNavigation"
     ]
 }
