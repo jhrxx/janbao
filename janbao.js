@@ -2,67 +2,67 @@ const json = {
   emotion: [
     {
       id: "froze",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5s220qg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRv0qU.gif",
       label: "呆"
     },
     {
       id: "cry",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql3wxiklg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvUx0.gif",
       label: "哭"
     },
     {
       id: "askance",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql4b2mm6g.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvsIJ.gif",
       label: "斜眼"
     },
     {
       id: "laugh",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5ln0syg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvtGn.gif",
       label: "乐"
     },
     {
       id: "bored",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql303a5lg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvYPs.gif",
       label: "无聊"
     },
     {
       id: "shame",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5yfdajg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvdMV.gif",
       label: "羞"
     },
     {
       id: "shock",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6be66kg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvDZF.gif",
       label: "惊"
     },
     {
       id: "anger",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6hno0wg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvwrT.gif",
       label: "怒"
     },
     {
       id: "laughter",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6sgfk8g.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRv2xx.gif",
       label: "狂笑"
     },
     {
       id: "sleepy",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6yohg1g.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvra4.gif",
       label: "困"
     },
     {
       id: "embarrassed",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql3jhhdrg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRv6i9.gif",
       label: "囧"
     },
     {
       id: "sleep",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql65bwcsg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvcGR.gif",
       label: "睡"
     },
     {
       id: "helpless",
-      url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql42wzdrg.gif",
+      url: "https://s2.ax1x.com/2019/07/12/ZRvgR1.gif",
       label: "无奈"
     }
   ],
@@ -137,6 +137,7 @@ function prepend(el, html) {
     el.insertAdjacentHTML("afterbegin", html);
   }
 }
+
 function append(el, html) {
   if (el) {
     el.insertAdjacentHTML("beforeend", html);
@@ -192,8 +193,26 @@ function warpElement(textarea, label) {
       el.value.substring(p.end, el.value.length);
   }
 }
+function insertAtCaret(el, text) {
+  if (el.selectionStart || el.selectionStart === "0") {
+    const startPos = el.selectionStart;
+    const endPos = el.selectionEnd;
+    const scrollTop = el.scrollTop;
+    el.value =
+      el.value.substring(0, startPos) +
+      text +
+      el.value.substring(endPos, el.value.length);
+    el.focus();
+    el.selectionStart = startPos + text.length;
+    el.selectionEnd = startPos + text.length;
+    el.scrollTop = scrollTop;
+  } else {
+    el.value += text;
+    el.focus();
+  }
+}
 
-function generateEmotions() {
+function generateTools() {
   return json.frame
     .map((value, index) => {
       return `<li id="${
@@ -208,20 +227,31 @@ function generateEmotions() {
     .join("");
 }
 
-function enhanceComment() {
-  const textarea = document.getElementById("Form_Body");
-  const toolbar = document.getElementById("jdedit_toolbar");
-  if (textarea && !toolbar) {
-    const textareaWrapper = textarea.parentNode;
-    const emotions = generateEmotions();
-    // prepend toolbar
-    prepend(
-      textareaWrapper,
-      `<ul id="jdedit_toolbar" class="jdedit-toolbar">${emotions}</ul>`
-    );
+function generateEmotions() {
+  return json.emotion
+    .map(value => {
+      return `<li id="${value.id}" class="jdedit-button-wrap jdedit-button-${
+        value.id
+      }" title="${value.label}">
+            <div class="jdedit-button jdedit-icon jdedit-icon-${
+              value.id
+            }"><img src="${value.url}" title="${value.label}"></div></li>`;
+    })
+    .join("");
+}
 
-    // bind events
-    document.querySelectorAll(".jdedit-button-wrap").forEach(el => {
+function prependToolbar(textarea) {
+  const tools = generateTools();
+
+  prepend(
+    textarea.parentNode,
+    `<ul id="jdedit_toolbar" class="jdedit-toolbar">${tools}</ul>`
+  );
+
+  // bind events
+  document
+    .querySelectorAll("#jdedit_toolbar .jdedit-button-wrap")
+    .forEach(el => {
       el.addEventListener("click", () => {
         switch (el.id) {
           case "bold":
@@ -259,6 +289,38 @@ function enhanceComment() {
         }
       });
     });
+}
+
+function appendEmotionbar(textarea) {
+  const emotions = generateEmotions();
+
+  append(
+    textarea.parentNode,
+    `<ul id="jdedit_emotionbar" class="jdedit-toolbar">${emotions}</ul>`
+  );
+
+  document
+    .querySelectorAll("#jdedit_emotionbar .jdedit-button-wrap")
+    .forEach(el => {
+      el.addEventListener("click", () => {
+        const img = el.children[0].children[0];
+        const { src, title } = img;
+        insertAtCaret(textarea, `<img src="${src}" title="${title}" />`);
+      });
+    });
+}
+
+function enhanceComment() {
+  const textarea = document.getElementById("Form_Body");
+  const toolbar = document.getElementById("jdedit_toolbar");
+  const emotionbar = document.getElementById("jdedit_emotionbar");
+  if (textarea) {
+    if (!toolbar) {
+      prependToolbar(textarea);
+    }
+    if (!emotionbar) {
+      appendEmotionbar(textarea);
+    }
   }
 }
 

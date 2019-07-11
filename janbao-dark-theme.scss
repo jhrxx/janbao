@@ -196,7 +196,6 @@ html.dark {
 
 .jdedit-toolbar {
   width: 100%;
-  margin-bottom: 3px;
 
   .jdedit-button-wrap {
     background-color: #fff;
@@ -313,4 +312,8 @@ html.dark {
       background-image: url("/images/frame/link.png");
     }
   }
+}
+
+#jdedit_emotionbar{
+  margin-top: 5px;
 }

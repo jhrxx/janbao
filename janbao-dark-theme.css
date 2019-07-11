@@ -192,7 +192,6 @@ html.dark body .Sprite.Sprite16.SpOptions {
 
 .jdedit-toolbar {
   width: 100%;
-  margin-bottom: 3px;
 }
 
 .jdedit-toolbar .jdedit-button-wrap {
@@ -335,5 +334,9 @@ html.dark body .Sprite.Sprite16.SpOptions {
 
 .jdedit-toolbar .jdedit-button-wrap .jdedit-icon-link {
   background-image: url("/images/frame/link.png");
+}
+
+#jdedit_emotionbar {
+  margin-top: 5px;
 }
 /*# sourceMappingURL=janbao-dark-theme.css.map */
