@@ -30,6 +30,7 @@
         },
         {
             "matches": [
+                "*://jandan.net/*",
                 "*://*.jandan.net/*"
             ],
             "css": [
