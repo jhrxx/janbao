@@ -1,168 +1,119 @@
-export const emotions = [
+export const emotions= [
   {
     id: "froze",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5s220qg.gif",
-    label: "呆",
-    thumb: true,
-    class: "1",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRv0qU.gif",
+    label: "呆"
   },
   {
     id: "cry",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql3wxiklg.gif",
-    label: "哭",
-    thumb: true,
-    class: "2",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvUx0.gif",
+    label: "哭"
   },
   {
     id: "askance",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql4b2mm6g.gif",
-    label: "斜眼",
-    thumb: true,
-    class: "3",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvsIJ.gif",
+    label: "斜眼"
   },
   {
     id: "laugh",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5ln0syg.gif",
-    label: "乐",
-    thumb: true,
-    class: "4",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvtGn.gif",
+    label: "乐"
   },
   {
     id: "bored",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql303a5lg.gif",
-    label: "无聊",
-    thumb: true,
-    class: "5",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvYPs.gif",
+    label: "无聊"
   },
   {
     id: "shame",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql5yfdajg.gif",
-    label: "羞",
-    thumb: true,
-    class: "6",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvdMV.gif",
+    label: "羞"
   },
   {
     id: "shock",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6be66kg.gif",
-    label: "惊",
-    thumb: true,
-    class: "7",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvDZF.gif",
+    label: "惊"
   },
   {
     id: "anger",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6hno0wg.gif",
-    label: "怒",
-    thumb: true,
-    class: "8",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvwrT.gif",
+    label: "怒"
   },
   {
     id: "laughter",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6sgfk8g.gif",
-    label: "狂笑",
-    thumb: true,
-    class: "9",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRv2xx.gif",
+    label: "狂笑"
   },
   {
     id: "sleepy",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql6yohg1g.gif",
-    label: "困",
-    thumb: true,
-    class: "10",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvra4.gif",
+    label: "困"
   },
   {
     id: "embarrassed",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql3jhhdrg.gif",
-    label: "囧",
-    thumb: true,
-    class: "11",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRv6i9.gif",
+    label: "囧"
   },
   {
     id: "sleep",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql65bwcsg.gif",
-    label: "睡",
-    thumb: true,
-    class: "12",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvcGR.gif",
+    label: "睡"
   },
   {
     id: "helpless",
-    url: "http://ww2.sinaimg.cn/thumbnail/66f2fc65gw1dvql42wzdrg.gif",
-    label: "无奈",
-    thumb: true,
-    class: "13",
-    img: ""
+    url: "https://s2.ax1x.com/2019/07/12/ZRvgR1.gif",
+    label: "无奈"
   }
 ];
 export const frames = [
   {
     id: "bold",
     label: "加粗",
-    class: "bold",
-    img: ""
+    class: "bold"
   },
   {
     id: "italic",
     label: "斜体",
-    class: "italic",
-    img: ""
+    class: "italic"
   },
   {
     id: "strike",
     label: "删除线",
-    class: "strikethrough",
-    img: ""
+    class: "strikethrough"
   },
   {
     id: "quote",
     label: "引用",
-    class: "blockquote",
-    img: ""
+    class: "blockquote"
   },
   {
     id: "orderedlist",
     label: "有序列表",
-    class: "insertorderedlist",
-    img: ""
+    class: "insertorderedlist"
   },
   {
     id: "unorderedlist",
     label: "无序列表",
-    class: "insertunorderedlist",
-    img: ""
+    class: "insertunorderedlist"
   },
   {
     id: "listitem",
     label: "列表项",
-    class: "listitem",
-    img: ""
+    class: "listitem"
   },
   {
     id: "horizontal",
     label: "分隔线",
-    class: "horizontal",
-    img: ""
+    class: "horizontal"
   },
   {
     id: "selectall",
     label: "全选",
-    class: "selectall",
-    img: ""
+    class: "selectall"
   },
   {
     id: "cleardoc",
     label: "清空",
-    class: "cleardoc",
-    img: ""
+    class: "cleardoc"
   }
 ];
