@@ -160,8 +160,8 @@ function warpElement(textarea, label) {
   let el = textarea,
     p = getCursorPosition(el),
     text = p.text.trim(),
-    openingTag = "<" + label + ">";
-  closingTag = "</" + label + ">";
+    openingTag = "<" + label + ">",
+    closingTag = "</" + label + ">";
   if (p.start === p.end || text === "") {
     el.value =
       el.value.substring(0, p.start) +
@@ -362,6 +362,15 @@ function bindUserStyle() {
         localStorage.setItem("theme", theme);
       }
     });
+  });
+
+  document.addEventListener("visibilitychange", state => {
+    if (document.visibilityState === "visible") {
+      const theme = localStorage.getItem("theme");
+      if (html.className !== theme) {
+        html.className = theme;
+      }
+    }
   });
 }
 
