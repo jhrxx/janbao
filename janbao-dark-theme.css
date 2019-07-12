@@ -161,6 +161,15 @@ html.dark body .Button:hover {
   border: 1px solid #343434 !important;
 }
 
+html.dark body .FlyoutMenu {
+  background: #434343;
+}
+
+html.dark body .FlyoutMenu .ItemContent,
+html.dark body .FlyoutMenu strong {
+  color: #d3d3d3;
+}
+
 html.dark body .Sprite.Sprite16.SpNotifications {
   background-position: -32px -212px;
 }
@@ -238,58 +247,6 @@ html.dark body .Sprite.Sprite16.SpOptions {
   background-repeat: no-repeat;
   background-position: center;
   color: transparent;
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-1 {
-  background-image: url("/images/emotion/1.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-2 {
-  background-image: url("/images/emotion/2.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-3 {
-  background-image: url("/images/emotion/3.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-4 {
-  background-image: url("/images/emotion/4.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-5 {
-  background-image: url("/images/emotion/5.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-6 {
-  background-image: url("/images/emotion/6.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-7 {
-  background-image: url("/images/emotion/7.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-8 {
-  background-image: url("/images/emotion/8.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-9 {
-  background-image: url("/images/emotion/9.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-10 {
-  background-image: url("/images/emotion/10.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-11 {
-  background-image: url("/images/emotion/11.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-12 {
-  background-image: url("/images/emotion/12.png");
-}
-
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-13 {
-  background-image: url("/images/emotion/13.png");
 }
 
 .jdedit-toolbar .jdedit-button-wrap .jdedit-icon-bold {
