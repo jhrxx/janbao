@@ -1,0 +1,27 @@
+{
+  "name": "janbao",
+  "version": "1.0.0",
+  "description": "",
+  "main": "janbao.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhrxx/janbao.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhrxx/janbao/issues"
+  },
+  "homepage": "https://github.com/jhrxx/janbao#readme",
+  "devDependencies": {
+    "del": "^4.1.1",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-minify": "^3.1.0",
+    "gulp-zip": "^5.0.0"
+  }
+}
