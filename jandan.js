@@ -95,26 +95,32 @@ const getImages = wrapper => {
       const uuid = strong.title.replace("防伪码：", "");
       const sources = item.querySelectorAll(".view_img_link");
       const src = [...sources].map(item => item.href);
-      const contents = item.querySelector(".text p").textContent;
-      const text = contents
-        .replace(/PLAY/gi, "")
-        .split("[查看原图]")
-        .join("");
+      const comments = [...item.querySelectorAll(".text p")]
+        .map(p => p.textContent.replace(/PLAY|\/n|/gi, ""))
+        .filter(t => !t.includes("[查看原图]"));
 
-      const NSFW = contents.includes("因不受欢迎已被超载鸡自动隐藏. ");
-      if (!NSFW) {
+      
+      // const text = comments
+      //   .replace(/PLAY/gi, "")
+      //   .split("[查看原图]")
+      //   .join("");
+      const dislikeText = "因不受欢迎已被超载鸡自动隐藏.  [手贱一回]";
+      const NSFWText = "NSFW";
+      const dislike = comments.includes(dislikeText);
+      // const NSFW = comments.includes(NSFWText);
+      if (!dislike) {
         list.push({
           id,
           auther,
           uuid,
           time,
-          text,
+          comments,
           src
         });
       }
     }
   });
-  // console.table(list);
+  console.table(list);
   return list;
 };
 
@@ -124,12 +130,17 @@ const initGallery = images => {
   if (pswpElement) {
     let items = [];
     images.forEach(image => {
-      image.src.forEach((item) => {
+      const imgNum = image.src.length;
+      const comNum = image.comments.length;
+      // for (let i = imgNum; i >= 0; i--) {
+      //   image.comments[i];
+      // }
+      image.src.forEach((item, index) => {
         items.push({
           src: item,
           w: 0,
           h: 0,
-          title: image.text
+          title: image.comments[index]
         });
       });
     });
@@ -140,14 +151,22 @@ const initGallery = images => {
       // for example:
       index: 0, // start at first slide
       loop: false, // Loop slides when using swipe gesture.
+      preload: [1, 20],
       closeOnScroll: false, // Close gallery on page scroll.
       shareEl: false,
-      counterEl: false
+      counterEl: true,
+      preloaderEl: true,
     };
     // Initializes and opens PhotoSwipe
     gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.listen('beforeChange', function(go) {
+      console.log('go :', go);
+      console.log('pswp.getCurrentIndex(); :', gallery.getCurrentIndex())
+      if(go === -1 && gallery.getCurrentIndex() === 1) {
+        return;
+      }
+    });
     gallery.listen("imageLoadComplete", function(index, item) {
-      console.log(item);
       // var img = item.container.children[0];
       if (item.h < 1 || item.w < 1) {
         let img = new Image();
