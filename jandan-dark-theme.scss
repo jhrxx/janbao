@@ -54,43 +54,57 @@ html {
 
     #wrapper {
       background-color: $dark-bg;
-      #header {
-      }
       #body {
         @extend %link;
-        display: flex;
         background: 0;
         border-color: $border;
         * {
           border-color: $border;
         }
         #content {
+          border-right: 1px solid $border;
           .title {
             background: $dark-bg;
             a {
-              color: $a;
+              color: $link-hover;
+              &:link,
+              &:visited {
+                color: $text;
+              }
             }
           }
           .comment-link {
             color: $a;
+            a {
+              color: $link-hover;
+              &:link,
+              &:visited {
+                color: $text;
+              }
+            }
+          }
+          .post {
+            a {
+              color: $a;
+            }
           }
           .cp-pagenavi {
-            &>a {
+            & > a {
               @extend %btn;
             }
           }
           .tucao-form,
-          #commentform{
-            input, textarea{
+          #commentform {
+            input,
+            textarea {
               @extend %input;
             }
-            input[type=submit]{
+            input[type="submit"] {
               @extend %btn;
             }
           }
         }
         #sidebar {
-          border-left: 1px solid $border;
           border-color: $border;
           form {
             background-color: $dark-bg;
@@ -124,11 +138,28 @@ html {
               .acv_author {
                 margin: 0;
                 background-color: $bg;
+                a {
+                  color: $text;
+                  font-weight: normal;
+                }
               }
               .acv_comment {
                 width: auto;
                 padding: 15px 20px;
                 background-color: $dark-bg;
+              }
+            }
+          }
+          li {
+            a {
+              span {
+                color: $a;
+              }
+              color: $a;
+              &:hover {
+                span {
+                  color: $link-hover;
+                }
               }
             }
           }
