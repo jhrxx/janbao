@@ -1,4 +1,58 @@
-console.log("jandan");
+/*
+ * 频率控制 返回函数连续调用时，fn 执行频率限定为每多少时间执行一次
+ * @param fn {function}  需要调用的函数
+ * @param delay  {number}    延迟时间，单位毫秒
+ * @param immediate  {bool} 给 immediate参数传递false 绑定的函数先执行，而不是delay后后执行。
+ * @return {function}实际调用函数
+ */
+var throttle = function(fn, delay, immediate, debounce) {
+  var curr = +new Date(), //当前事件
+    last_call = 0,
+    last_exec = 0,
+    timer = null,
+    diff, //时间差
+    context, //上下文
+    args,
+    exec = function() {
+      last_exec = curr;
+      fn.apply(context, args);
+    };
+  return function() {
+    curr = +new Date();
+    (context = this),
+      (args = arguments),
+      (diff = curr - (debounce ? last_call : last_exec) - delay);
+    clearTimeout(timer);
+    if (debounce) {
+      if (immediate) {
+        timer = setTimeout(exec, delay);
+      } else if (diff >= 0) {
+        exec();
+      }
+    } else {
+      if (diff >= 0) {
+        exec();
+      } else if (immediate) {
+        timer = setTimeout(exec, -diff);
+      }
+    }
+    last_call = curr;
+  };
+};
+
+/*
+ * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay，fn 才会执行
+ * @param fn {function}  要调用的函数
+ * @param delay   {number}    空闲时间
+ * @param immediate  {bool} 给 immediate参数传递false 绑定的函数先执行，而不是delay后后执行。
+ * @return {function}实际调用函数
+ */
+
+var debounce = function(fn, delay, immediate) {
+  return throttle(fn, delay, immediate, true);
+};
+
+let page = 0;
 let gallery;
 let cfg = {};
 
@@ -99,7 +153,6 @@ const getImages = wrapper => {
         .map(p => p.textContent.replace(/PLAY|\/n|/gi, ""))
         .filter(t => !t.includes("[查看原图]"));
 
-      
       // const text = comments
       //   .replace(/PLAY/gi, "")
       //   .split("[查看原图]")
@@ -151,19 +204,39 @@ const initGallery = images => {
       // for example:
       index: 0, // start at first slide
       loop: false, // Loop slides when using swipe gesture.
-      preload: [1, 20],
+      // preload: [1, 20],
       closeOnScroll: false, // Close gallery on page scroll.
       shareEl: false,
       counterEl: true,
-      preloaderEl: true,
+      preloaderEl: true
     };
     // Initializes and opens PhotoSwipe
     gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-    gallery.listen('beforeChange', function(go) {
-      console.log('go :', go);
-      console.log('pswp.getCurrentIndex(); :', gallery.getCurrentIndex())
-      if(go === -1 && gallery.getCurrentIndex() === 1) {
-        return;
+    gallery.listen("beforeChange", function(go) {
+      // console.log("go :", go);
+      // console.log("pswp.getCurrentIndex(); :", gallery.getCurrentIndex());
+      // if (go === -1 && gallery.getCurrentIndex() === 1) {
+      //   return;
+      // }
+    });
+
+    const handleLazyLoad = debounce(
+      () => {
+        console.log("debounce need to load more");
+        loadNextPage()
+      },
+      1000,
+      true
+    );
+
+    gallery.listen("afterChange", function() {
+      let current = gallery.getCurrentIndex();
+      let total = gallery.options.getNumItemsFn();
+      // console.log('current :', current);
+      // console.log('total :', total);
+      if (current > total - 5) {
+        // console.log("need to load more");
+        handleLazyLoad(current, total);
       }
     });
     gallery.listen("imageLoadComplete", function(index, item) {
@@ -199,12 +272,13 @@ const post = () => {
 };
 
 const loadNextPage = async () => {
-  const resp = await fetch("http://jandan.net/pic/page-109#comments");
+  const resp = await fetch("http://jandan.net/pic/page-"+(page+1));
   const html = await resp.text();
   const dom = parseHTML(html);
   if (dom.wrapper) {
     getImages(dom.wrapper);
   }
+  page+=1;
 };
 
 ready(() => {
@@ -236,4 +310,21 @@ ready(() => {
   // .finally(object => {
   //   console.log("object :", object);
   // });
+
+  // get current page
+  
+  const isPicPage = location.pathname.indexOf("/pic") === 0;
+  if (isPicPage) {
+    if (location.pathname === "/pic") {
+      const wrapper = document.querySelector("#wrapper");
+      page = wrapper
+        .querySelector(".cp-pagenavi span")
+        .textContent.replace(/\[|\]/gi, "");
+    } else {
+      page = location.pathname.replace("/pic/page-", "");
+    }
+  }
+
+  page = parseInt(page, 10);
+  console.log("page :", page);
 });
