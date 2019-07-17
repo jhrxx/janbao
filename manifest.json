@@ -8,7 +8,7 @@
     "48": "icon-48.png",
     "96": "icon-96.png"
   },
-  "web_accessible_resources": ["images/*", "node_modules/photoswipe/dist/*"],
+  "web_accessible_resources": ["images/*"],
   "content_scripts": [
     {
       "matches": ["*://janbao.net/*"],
@@ -18,13 +18,12 @@
     {
       "matches": ["*://jandan.net/*", "*://*.jandan.net/*"],
       "css": [
-        "jandan-dark-theme.css",
-        "node_modules/photoswipe/dist/photoswipe.css",
-        "node_modules/photoswipe/dist/default-skin/default-skin.css"
+        "node_modules/viewerjs/dist/viewer.min.css",
+        "jandan-dark-theme.css"
       ],
       "js": [
-        "node_modules/photoswipe/dist/photoswipe.min.js",
-        "node_modules/photoswipe/dist/photoswipe-ui-default.min.js",
+        "node_modules/viewerjs/dist/viewer.min.js",
+        "lib.js",
         "jandan.js"
       ]
     }

@@ -25,6 +25,6 @@
     "gulp-zip": "^5.0.0"
   },
   "dependencies": {
-    "photoswipe": "^4.1.3"
+    "viewerjs": "^1.3.6"
   }
 }

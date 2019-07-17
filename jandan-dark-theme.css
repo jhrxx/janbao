@@ -165,4 +165,12 @@ html body #wrapper #body #sidebar * {
 html body #wrapper #footer {
   border-color: #343434;
 }
+
+html body .viewer-container {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#imagesTmpl {
+  display: none !important;
+}
 /*# sourceMappingURL=jandan-dark-theme.css.map */
