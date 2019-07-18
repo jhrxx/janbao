@@ -25,6 +25,7 @@
     "gulp-zip": "^5.0.0"
   },
   "dependencies": {
+    "driver.js": "^0.9.7",
     "viewerjs": "^1.3.6"
   }
 }

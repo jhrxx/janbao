@@ -12,8 +12,8 @@
   "content_scripts": [
     {
       "matches": ["*://janbao.net/*"],
-      "css": ["janbao-dark-theme.css"],
-      "js": ["janbao.js"]
+      "css": ["node_modules/driver.js/dist/driver.min.css","janbao-dark-theme.css"],
+      "js": ["node_modules/driver.js/dist/driver.min.js","janbao.js"]
     },
     {
       "matches": ["*://jandan.net/*", "*://*.jandan.net/*"],

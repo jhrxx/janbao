@@ -25,7 +25,9 @@ $brage: #ae1d18;
   border: 1px solid $link;
   background-color: $bg !important;
 }
-
+#theme{
+  background-color:#444;
+}
 html.dark {
   ::selection {
     background: $divider;

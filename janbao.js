@@ -373,9 +373,48 @@ function bindUserStyle() {
     }
   });
 }
+function helpWizard(flag) {
+  if (flag) {
+    const driver = new Driver({
+      doneBtnText: "完成", // Text on the final button
+      closeBtnText: "关闭", // Text on the close button for this step
+      stageBackground: "#eee", // Background color for the staged behind highlighted element
+      nextBtnText: "下一个", // Next button text for this step
+      prevBtnText: "上一个"
+    });
+    driver.defineSteps([
+      {
+        element: "#theme",
+        popover: {
+          title: "点击 “夜间” 以切换模式",
+          description: "夜间模式可以保护眼睛"
+        }
+      },
+      {
+        element: "#SearchBox",
+        popover: {
+          title: "加入搜索框",
+          description: "失踪搜索框回归"
+        }
+      },
+      {
+        element: ".Item.ItemDiscussion",
+        popover: {
+          title: "进入话题",
+          description: "查看回复框"
+        }
+      }
+    ]);
+    setTimeout(() => {
+      driver.start();
+    }, 1500);
+  }
+}
 
 ready(() => {
+  const flag = localStorage.getItem("theme");
   bindUserStyle();
   addSearchBox();
   enhanceComment();
+  helpWizard(!flag);
 });

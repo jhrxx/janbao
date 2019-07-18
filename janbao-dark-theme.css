@@ -13,6 +13,10 @@ html.dark body textarea {
   background-color: #434343 !important;
 }
 
+#theme {
+  background-color: #444;
+}
+
 html.dark ::-moz-selection {
   background: #343434;
 }
