@@ -18,7 +18,7 @@
   "homepage": "https://github.com/jhrxx/janbao#readme",
   "devDependencies": {
     "del": "^4.1.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-imagemin": "^5.0.3",
     "gulp-minify": "^3.1.0",

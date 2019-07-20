@@ -1,8 +1,9 @@
 let page = 0;
+let loading = false;
 let gallery;
 let store = {};
 
-const getImages = wrapper => {
+const initImageList = wrapper => {
   let list = [];
   wrapper.querySelectorAll("ol.commentlist>li").forEach(item => {
     if (item.id) {
@@ -40,7 +41,6 @@ const getImages = wrapper => {
     }
   });
 
-  // console.table(list);
   let items = [];
   list.forEach(image => {
     // const imgNum = image.src.length;
@@ -56,39 +56,30 @@ const getImages = wrapper => {
       });
     });
   });
-  // console.table(items);
+
+  console.table(items);
+  console.log('set page data:',  page);
   store[page] = items;
-  // return list;
-};
-
-const post = () => {
-  let data = { comment_id: 4298602, like_type: "pos", data_type: "comment" },
-    url = "http://jandan.net/jandan-vote.php";
-};
-
-prefetch = images => {
-  appendLink = href => {
-    let link = document.createElement("link");
-    link.rel = "prefetch";
-    link.href = href;
-    document.head.appendChild(link);
-  };
-  images.forEach(image => {
-    image.src.forEach(url => {
-      appendLink(url);
-    });
-  });
+  console.log('store :', store);
 };
 
 const loadNextPage = async () => {
-  const resp = await fetch("http://jandan.net/pic/page-" + (page + 1));
-  const html = await resp.text();
-  const dom = parseHTML(html);
-  if (dom.wrapper) {
-    const images = getImages(dom.wrapper);
-    prefetch(images);
+  const nextPage = page - 1;
+  if (!loading && !store[nextPage]) {
+    loading = true;
+    console.log(`load http://jandan.net/pic/page-${nextPage}`);
+    const resp = await fetch(`http://jandan.net/pic/page-${nextPage}`);
+    console.log('resp :', resp);
+    const html = await resp.text();
+    console.log('html :', html);
+    page -= 1;
+    const dom = parseHTML(html);
+    if (dom.wrapper) {
+      initImageList(dom.wrapper);
+      updateGallery();
+    }
+    loading = false;
   }
-  page += 1;
 };
 
 const initGallery = () => {
@@ -98,13 +89,16 @@ const initGallery = () => {
     transition: false,
     loop: false
   };
-  
+
   if (!tmplEl) {
     const tmpl = `
       <ul id="imagesTmpl">
       ${store[page]
         .map(
-          image => `<li><img src="${image.src}" alt="${image.auther} @ ${image.time}" /></li>`
+          image =>
+            `<li><img src="${image.src}" alt="${image.auther} @ ${
+              image.time
+            }" /></li>`
         )
         .join("")}
       </ul>
@@ -113,21 +107,35 @@ const initGallery = () => {
     tmplEl = document.getElementById("imagesTmpl");
   }
 
-  tmplEl.addEventListener('viewed',  (event)=> {
-    console.log('gallery :', gallery);
-    console.log('detail :', event.detail);
-    console.log('index :', event.detail.index);
+  tmplEl.addEventListener("viewed", () => {
+    console.log("viewed");
+    if (gallery.index > gallery.length - 10) {
+      console.log("need to load next page");
+      loadNextPage();
+    }
   });
 
-  tmplEl.addEventListener('viewed',  (event)=> {
-    console.log('event :', event);
-  });
-
-  
-  gallery = new Viewer(tmplEl,options);
+  gallery = new Viewer(tmplEl, options);
   // console.log("gallery :", gallery);
 
   gallery.show();
+};
+
+const updateGallery = () => {
+  console.log('updateGallery :', store[page]);
+  const tmplEl = document.getElementById("imagesTmpl");
+  const tmpl = `${store[page]
+    .map(
+      image =>
+        `<li><img src="${image.src}" alt="${image.auther} @ ${
+          image.time
+        }" /></li>`
+    )
+    .join("")}`;
+  append(tmplEl, tmpl);
+  let len = document.querySelectorAll("#imagesTmpl li").length;
+  console.log('length :', len);
+  gallery.update();
 };
 
 const renderGallery = () => {
@@ -154,9 +162,15 @@ ready(() => {
       page = location.pathname.replace("/pic/page-", "");
     }
     page = parseInt(page, 10);
-    // console.log("current page :", page);
 
-    getImages(wrapper);
-    renderGallery();
+    setTimeout(() => {
+      initImageList(wrapper);
+      renderGallery();
+
+      const header = document.getElementById('header')
+      header.addEventListener('click', ()=>{
+        gallery.show()
+      });
+    }, 0);
   }
 });
