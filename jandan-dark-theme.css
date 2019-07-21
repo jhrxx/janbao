@@ -13,20 +13,26 @@ html body #wrapper #body #content #commentform textarea {
   background-color: #434343 !important;
 }
 
-html body #wrapper #body #content .cp-pagenavi > a, html body #wrapper #body #content .tucao-form input[type="submit"],
+#gallery_btn, html body #wrapper #body #content .cp-pagenavi > a, html body #wrapper #body #content .tucao-form input[type="submit"],
 html body #wrapper #body #content #commentform input[type="submit"], html body #wrapper #body #sidebar form button {
   color: #666;
   border: 0;
   background-color: #262626;
 }
 
-html body #wrapper #body #content .cp-pagenavi > a:hover, html body #wrapper #body #content .tucao-form input:hover[type="submit"],
+#gallery_btn:hover, html body #wrapper #body #content .cp-pagenavi > a:hover, html body #wrapper #body #content .tucao-form input:hover[type="submit"],
 html body #wrapper #body #content #commentform input:hover[type="submit"], html body #wrapper #body #sidebar form button:hover {
   background-color: #353535;
 }
 
 html body #wrapper #body a:hover {
   color: #c00 !important;
+}
+
+#gallery_btn {
+  cursor: pointer;
+  float: right;
+  padding: 10px 20px;
 }
 
 html ::-moz-selection {

@@ -2,6 +2,14 @@ let page = 0;
 let loading = false;
 let gallery;
 let store = {};
+const btn = `<a id="gallery_btn">🖼️开启传送门</a>`;
+const driver = new Driver({
+  doneBtnText: "完成", // Text on the final button
+  closeBtnText: "关闭", // Text on the close button for this step
+  stageBackground: "#eee", // Background color for the staged behind highlighted element
+  nextBtnText: "下一个", // Next button text for this step
+  prevBtnText: "上一个"
+});
 
 const initImageList = wrapper => {
   let list = [];
@@ -58,9 +66,9 @@ const initImageList = wrapper => {
   });
 
   console.table(items);
-  console.log('set page data:',  page);
+  console.log("set page data:", page);
   store[page] = items;
-  console.log('store :', store);
+  console.log("store :", store);
 };
 
 const loadNextPage = async () => {
@@ -69,9 +77,9 @@ const loadNextPage = async () => {
     loading = true;
     console.log(`load http://jandan.net/pic/page-${nextPage}`);
     const resp = await fetch(`http://jandan.net/pic/page-${nextPage}`);
-    console.log('resp :', resp);
+    console.log("resp :", resp);
     const html = await resp.text();
-    console.log('html :', html);
+    console.log("html :", html);
     page -= 1;
     const dom = parseHTML(html);
     if (dom.wrapper) {
@@ -80,6 +88,19 @@ const loadNextPage = async () => {
     }
     loading = false;
   }
+};
+
+const initGalleryBtn = () => {
+  if (document.querySelector("#gallery_btn")) {
+    return;
+  }
+  const btnContainer = document.querySelector(".comments");
+  prepend(btnContainer, btn);
+
+  // bind event
+  btnContainer.querySelector("#gallery_btn").addEventListener("click", () => {
+    gallery && gallery.show();
+  });
 };
 
 const initGallery = () => {
@@ -107,22 +128,39 @@ const initGallery = () => {
     tmplEl = document.getElementById("imagesTmpl");
   }
 
-  tmplEl.addEventListener("viewed", () => {
-    console.log("viewed");
-    if (gallery.index > gallery.length - 10) {
-      console.log("need to load next page");
-      loadNextPage();
-    }
-  });
+  tmplEl.addEventListener(
+    'error',
+    windowErrorCb,
+    {
+      capture: true
+    },
+    true
+  )
 
-  gallery = new Viewer(tmplEl, options);
-  // console.log("gallery :", gallery);
 
-  gallery.show();
+function windowErrorCb(event) {
+  let target = event.target
+  let isImg = target.tagName.toLowerCase() === 'img'
+  if (isImg) {
+    console.log('image log error', target);
+    return
+  }
+}
+  
+
+  // tmplEl.addEventListener("viewed", () => {
+  //   console.log("viewed");
+  //   if (gallery.index > gallery.length - 10) {
+  //     console.log("need to load next page");
+  //     loadNextPage();
+  //   }
+  // });
+
+  // gallery = new Viewer(tmplEl, options);
 };
 
 const updateGallery = () => {
-  console.log('updateGallery :', store[page]);
+  console.log("updateGallery :", store[page]);
   const tmplEl = document.getElementById("imagesTmpl");
   const tmpl = `${store[page]
     .map(
@@ -134,7 +172,7 @@ const updateGallery = () => {
     .join("")}`;
   append(tmplEl, tmpl);
   let len = document.querySelectorAll("#imagesTmpl li").length;
-  console.log('length :', len);
+  console.log("length :", len);
   gallery.update();
 };
 
@@ -146,10 +184,25 @@ const renderGallery = () => {
   }
 };
 
+const helpWizard = display => {
+  if (display) {
+    localStorage.setItem("help-wizard", "display");
+    driver.highlight({
+      element: "#gallery_btn",
+      popover: {
+        title: "开启图片传送门",
+        description: "无需翻页即刻开启快速浏览模式"
+      }
+    });
+  }
+};
+
 ready(() => {
+  const flag = localStorage.getItem("help-wizard");
   const isPicPage = location.pathname.indexOf("/pic") === 0;
 
   if (isPicPage) {
+    initGalleryBtn();
     const wrapper = document.querySelector("#wrapper");
 
     // get current page
@@ -167,10 +220,7 @@ ready(() => {
       initImageList(wrapper);
       renderGallery();
 
-      const header = document.getElementById('header')
-      header.addEventListener('click', ()=>{
-        gallery.show()
-      });
+      helpWizard(!flag);
     }, 0);
   }
 });

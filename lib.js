@@ -70,6 +70,12 @@ const append = (el, html) => {
   }
 };
 
+const prepend = (el, html)=> {
+  if (el) {
+    el.insertAdjacentHTML("afterbegin", html);
+  }
+};
+
 const parseHTML = string => {
   const context = document.implementation.createHTMLDocument();
 

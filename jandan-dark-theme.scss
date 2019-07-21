@@ -41,6 +41,14 @@ $brage: #ae1d18;
     }
   }
 }
+
+#gallery_btn {
+  cursor: pointer;
+  float: right;
+  padding: 10px 20px;
+  @extend %btn;
+}
+
 html {
   ::selection {
     background: $divider;
@@ -176,7 +184,7 @@ html {
       }
     }
     .viewer-container {
-      background-color: rgba(0,0,0, .8)
+      background-color: rgba(0, 0, 0, 0.8);
     }
   }
 }

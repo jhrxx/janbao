@@ -18,11 +18,13 @@
     {
       "matches": ["*://jandan.net/*", "*://*.jandan.net/*"],
       "css": [
+        "node_modules/driver.js/dist/driver.min.css",
         "node_modules/viewerjs/dist/viewer.min.css",
         "jandan-dark-theme.css"
       ],
       "js": [
         "node_modules/viewerjs/dist/viewer.min.js",
+        "node_modules/driver.js/dist/driver.min.js",
         "lib.js",
         "jandan.js"
       ]
