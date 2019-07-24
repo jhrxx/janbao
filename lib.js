@@ -88,3 +88,13 @@ const parseHTML = string => {
   context.body.innerHTML = string;
   return context.body.children;
 };
+
+const getCookie = name => {
+  let value = "; " + document.cookie;
+  let parts = value.split("; " + name + "=");
+  if (parts.length == 2)
+    return parts
+      .pop()
+      .split(";")
+      .shift();
+};

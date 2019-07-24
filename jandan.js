@@ -1,7 +1,9 @@
-let page = 0;
-let loading = false;
+let imageContainer;
+let currentPage;
 let gallery;
 let store = {};
+let loading = false;
+
 const btn = `<a id="gallery_btn">🖼️开启传送门</a>`;
 const driver = new Driver({
   doneBtnText: "完成", // Text on the final button
@@ -11,7 +13,8 @@ const driver = new Driver({
   prevBtnText: "上一个"
 });
 
-const initImageList = wrapper => {
+// 构造图片数据
+const storeImageData = wrapper => {
   let list = [];
   wrapper.querySelectorAll("ol.commentlist>li").forEach(item => {
     if (item.id) {
@@ -65,14 +68,17 @@ const initImageList = wrapper => {
     });
   });
 
-  console.table(items);
-  console.log("set page data:", page);
-  store[page] = items;
-  console.log("store :", store);
+  // console.table(items);
+  // console.log("set page data:", page);
+  store[currentPage] = items;
+  
+  updateImageContainer();
+  // console.log("store :", store);
 };
 
+// 获取下一页数据
 const loadNextPage = async () => {
-  const nextPage = page - 1;
+  const nextPage = currentPage - 1;
   if (!loading && !store[nextPage]) {
     loading = true;
     console.log(`load http://jandan.net/pic/page-${nextPage}`);
@@ -80,89 +86,106 @@ const loadNextPage = async () => {
     console.log("resp :", resp);
     const html = await resp.text();
     console.log("html :", html);
-    page -= 1;
+    currentPage -= 1;
     const dom = parseHTML(html);
     if (dom.wrapper) {
-      initImageList(dom.wrapper);
-      updateGallery();
+      storeImageData(dom.wrapper);
     }
     loading = false;
   }
 };
 
+// 开启传送门
 const initGalleryBtn = () => {
-  if (document.querySelector("#gallery_btn")) {
-    return;
-  }
   const btnContainer = document.querySelector(".comments");
-  prepend(btnContainer, btn);
+  if (!document.querySelector("#gallery_btn")) {
+    prepend(btnContainer, btn);
+  }
 
   // bind event
   btnContainer.querySelector("#gallery_btn").addEventListener("click", () => {
+    console.log("gallery :", gallery);
     gallery && gallery.show();
   });
 };
 
+// 初始化 viewer 模板， 事件绑定
+const initImageContainer = () => {
+  if (!imageContainer) {
+    const tmpl = `
+      <ul id="imagesTmpl">
+      </ul>
+    `;
+    
+    // ${store[currentPage]
+    //   .map(
+    //     image =>
+    //       `<li><img src="${image.src}" alt="${image.auther} @ ${
+    //         image.time
+    //       }" /></li>`
+    //   )
+    //   .join("")}
+    append(document.body, tmpl);
+    
+    imageContainer = document.getElementById("imagesTmpl");
+
+    // 监听图片加载失败
+    imageContainer.addEventListener(
+      "error",
+      event => {
+        let target = event.target;
+        let isImg = target.tagName.toLowerCase() === "img";
+        if (isImg) {
+          target.remove();
+          gallery.update();
+          // console.log("image log error", target);
+          return;
+        }
+      },
+      {
+        capture: true
+      },
+      true
+    );
+
+    // 图片浏览钩子
+    imageContainer.addEventListener("viewed", () => {
+      // console.log("viewed");
+      if (gallery.index > gallery.length - 10) {
+        // console.log("need to load next page");
+        loadNextPage();
+      }
+    });
+  }
+};
+
+// 创建viewer实例  见证奇迹
 const initGallery = () => {
-  let tmplEl = document.getElementById("imagesTmpl");
+  console.log('initGallery');
   const options = {
     backdrop: false,
     transition: false,
     loop: false
   };
+  let index = 0;
 
-  if (!tmplEl) {
-    const tmpl = `
-      <ul id="imagesTmpl">
-      ${store[page]
-        .map(
-          image =>
-            `<li><img src="${image.src}" alt="${image.auther} @ ${
-              image.time
-            }" /></li>`
-        )
-        .join("")}
-      </ul>
-    `;
-    append(document.body, tmpl);
-    tmplEl = document.getElementById("imagesTmpl");
+  if (gallery) {
+    index = gallery.index;
+
+    gallery.destroy();
   }
 
-  tmplEl.addEventListener(
-    'error',
-    windowErrorCb,
-    {
-      capture: true
-    },
-    true
-  )
-
-
-function windowErrorCb(event) {
-  let target = event.target
-  let isImg = target.tagName.toLowerCase() === 'img'
-  if (isImg) {
-    console.log('image log error', target);
-    return
-  }
-}
+  gallery = new Viewer(imageContainer, options);
   
-
-  // tmplEl.addEventListener("viewed", () => {
-  //   console.log("viewed");
-  //   if (gallery.index > gallery.length - 10) {
-  //     console.log("need to load next page");
-  //     loadNextPage();
-  //   }
-  // });
-
-  // gallery = new Viewer(tmplEl, options);
+  if(index) {
+    gallery.view(index)
+    gallery.update() 
+  }
 };
 
-const updateGallery = () => {
-  console.log("updateGallery :", store[page]);
-  const tmplEl = document.getElementById("imagesTmpl");
-  const tmpl = `${store[page]
+// 更新 viewer 模板
+const updateImageContainer = () => {
+  const tmpl = `${store[currentPage]
     .map(
       image =>
         `<li><img src="${image.src}" alt="${image.auther} @ ${
@@ -170,18 +193,12 @@ const updateGallery = () => {
         }" /></li>`
     )
     .join("")}`;
-  append(tmplEl, tmpl);
-  let len = document.querySelectorAll("#imagesTmpl li").length;
-  console.log("length :", len);
-  gallery.update();
-};
-
-const renderGallery = () => {
-  if (!gallery) {
-    initGallery();
-  } else {
-    console.log("gallery inited!");
-  }
+  append(imageContainer, tmpl);
+  
+  initGallery();
+  // let len = document.querySelectorAll("#imagesTmpl li").length;
+  // console.log("length :", len);
+  // gallery.update();
 };
 
 const helpWizard = display => {
@@ -197,16 +214,14 @@ const helpWizard = display => {
   }
 };
 
-ready(() => {
-  const flag = localStorage.getItem("help-wizard");
-  const isPicPage = location.pathname.indexOf("/pic") === 0;
-
-  if (isPicPage) {
-    initGalleryBtn();
-    const wrapper = document.querySelector("#wrapper");
-
+const getCurrentPage = () => {
+  if (currentPage) {
+    return currentPage;
+  } else {
+    let page = 0;
     // get current page
     if (location.pathname === "/pic") {
+      // TODO:
       const wrapper = document.querySelector("#wrapper");
       page = wrapper
         .querySelector(".cp-pagenavi span")
@@ -214,13 +229,35 @@ ready(() => {
     } else {
       page = location.pathname.replace("/pic/page-", "");
     }
-    page = parseInt(page, 10);
+    return parseInt(page, 10);
+  }
+};
+
+ready(() => {
+  // help wizard flag
+  const flag = localStorage.getItem("help-wizard");
+  // 图片页面 TODO：列表
+  const isPicPage = location.pathname.indexOf("/pic") === 0;
+
+  if (isPicPage) {
+    const wrapper = document.querySelector("#wrapper");
+    currentPage = getCurrentPage();
+
+    //  创建传送门
+    initGalleryBtn();
+
+    initImageContainer();
+
+    storeImageData(wrapper);
 
     setTimeout(() => {
-      initImageList(wrapper);
-      renderGallery();
-
       helpWizard(!flag);
-    }, 0);
+
+      // gif-click-load
+      // nsfw-click-load
+      // bad-click-load
+      // console.log('nsfw :', getCookie('nsfw-click-load'));
+      // console.log('bad :', getCookie('bad-click-load'));
+    }, 20);
   }
 });
