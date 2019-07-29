@@ -2,9 +2,11 @@ let imageContainer;
 let currentPage;
 let gallery;
 let store = {};
-let loading = false;
+let loading = true;
 
-const btn = `<a id="gallery_btn">🖼️开启传送门</a>`;
+const btn = `<a id="gallery_btn">🖼️ 开启传送门</a>`;
+
+// 初始化 Driver
 const driver = new Driver({
   doneBtnText: "完成", // Text on the final button
   closeBtnText: "关闭", // Text on the close button for this step
@@ -71,7 +73,7 @@ const storeImageData = wrapper => {
   // console.table(items);
   // console.log("set page data:", page);
   store[currentPage] = items;
-  
+
   updateImageContainer();
   // console.log("store :", store);
 };
@@ -81,11 +83,11 @@ const loadNextPage = async () => {
   const nextPage = currentPage - 1;
   if (!loading && !store[nextPage]) {
     loading = true;
-    console.log(`load http://jandan.net/pic/page-${nextPage}`);
+    // console.log(`load http://jandan.net/pic/page-${nextPage}`);
     const resp = await fetch(`http://jandan.net/pic/page-${nextPage}`);
-    console.log("resp :", resp);
+    // console.log("resp :", resp);
     const html = await resp.text();
-    console.log("html :", html);
+    // console.log("html :", html);
     currentPage -= 1;
     const dom = parseHTML(html);
     if (dom.wrapper) {
@@ -94,6 +96,29 @@ const loadNextPage = async () => {
     loading = false;
   }
 };
+
+const initKeyboardHint = () => {
+  const container = document.querySelector('.viewer-container');
+  const hint = document.querySelector('.viewer-hint');
+  const hintTmpl = `
+  <div class="viewer-hint">
+    <a>查看快捷键</a>
+    <ul>
+      <li><span>Esc</span>: 退出全屏或关闭查看器或退出模式模式或停止播放。</li>
+      <li><span>Space</span>: 停止播放。</li>
+      <li><span>←</span>: 查看上一张图片。</li>
+      <li><span>→</span>: 查看下一张图片。</li>
+      <li><span>↑</span>: 放大图片。</li>
+      <li><span>↓</span>: 缩小图片。</li>
+      <li><span>Ctrl + 0</span>: 缩小到初始大小。</li>
+      <li><span>Ctrl + 1</span>: 放大到自然尺寸。</li>
+    </ul>
+  </div>`;
+
+  if(!hint) {
+    append(container, hintTmpl);
+  }
+}
 
 // 开启传送门
 const initGalleryBtn = () => {
@@ -104,7 +129,6 @@ const initGalleryBtn = () => {
 
   // bind event
   btnContainer.querySelector("#gallery_btn").addEventListener("click", () => {
-    console.log("gallery :", gallery);
     gallery && gallery.show();
   });
 };
@@ -116,17 +140,9 @@ const initImageContainer = () => {
       <ul id="imagesTmpl">
       </ul>
     `;
-    
-    // ${store[currentPage]
-    //   .map(
-    //     image =>
-    //       `<li><img src="${image.src}" alt="${image.auther} @ ${
-    //         image.time
-    //       }" /></li>`
-    //   )
-    //   .join("")}
+
     append(document.body, tmpl);
-    
+
     imageContainer = document.getElementById("imagesTmpl");
 
     // 监听图片加载失败
@@ -151,8 +167,18 @@ const initImageContainer = () => {
     // 图片浏览钩子
     imageContainer.addEventListener("viewed", () => {
       // console.log("viewed");
+      // console.log("gallery :", gallery);
+      const { image } = gallery;
+      if (image) {
+        const { naturalHeight: height, naturalWidth: width } = image;
+        if (height > width * 2.5) {
+          gallery.zoomTo(.8);
+          gallery.moveTo(gallery.x, 0);
+        }
+      }
+
       if (gallery.index > gallery.length - 10) {
-        // console.log("need to load next page");
+        // console.log("need to load next page");)
         loadNextPage();
       }
     });
@@ -161,11 +187,33 @@ const initImageContainer = () => {
 
 // 创建viewer实例  见证奇迹
 const initGallery = () => {
-  console.log('initGallery');
   const options = {
+    ready() {
+      // 2 methods are available here: "show" and "destroy".
+      // console.log('gallery is ready');
+      // 防止首页加载太少直接闪退
+      setTimeout(()=>{
+        loading = false;
+      },500)
+
+      initKeyboardHint();
+    },
     backdrop: false,
     transition: false,
-    loop: false
+    loop: false,
+    toolbar: {
+      zoomIn: true,
+      zoomOut: true,
+      oneToOne: true,
+      reset: true,
+      prev: true,
+      play: true,
+      next: true,
+      rotateLeft: true,
+      rotateRight: true,
+      flipHorizontal: true,
+      flipVertical: true
+    }
   };
   let index = 0;
 
@@ -176,10 +224,10 @@ const initGallery = () => {
   }
 
   gallery = new Viewer(imageContainer, options);
-  
-  if(index) {
-    gallery.view(index)
-    gallery.update() 
+
+  if (index) {
+    gallery.view(index);
+    gallery.update();
   }
 };
 
@@ -194,11 +242,8 @@ const updateImageContainer = () => {
     )
     .join("")}`;
   append(imageContainer, tmpl);
-  
+
   initGallery();
-  // let len = document.querySelectorAll("#imagesTmpl li").length;
-  // console.log("length :", len);
-  // gallery.update();
 };
 
 const helpWizard = display => {
@@ -258,6 +303,6 @@ ready(() => {
       // bad-click-load
       // console.log('nsfw :', getCookie('nsfw-click-load'));
       // console.log('bad :', getCookie('bad-click-load'));
-    }, 20);
+    }, 100);
   }
 });
