@@ -2,6 +2,7 @@ let imageContainer;
 let currentPage;
 let gallery;
 let store = {};
+// let tocao = {};
 let loading = true;
 
 const btn = `<a id="gallery_btn">🖼️ 开启传送门</a>`;
@@ -19,6 +20,9 @@ const driver = new Driver({
 const storeImageData = wrapper => {
   let list = [];
   wrapper.querySelectorAll("ol.commentlist>li").forEach(item => {
+    const getNum = className => {
+      return item.querySelector(className).textContent.match(/\d/)[0];
+    };
     if (item.id) {
       const strong = item.querySelector(".author strong");
       const time = item
@@ -32,6 +36,9 @@ const storeImageData = wrapper => {
       const comments = [...item.querySelectorAll(".text p")]
         .map(p => p.textContent.replace(/PLAY|\/n|/gi, ""))
         .filter(t => !t.includes("[查看原图]"));
+      const oo = getNum(".tucao-like-container");
+      const xx = getNum(".tucao-unlike-container");
+      const tucao = getNum(".tucao-btn");
 
       // const text = comments
       //   .replace(/PLAY/gi, "")
@@ -48,7 +55,10 @@ const storeImageData = wrapper => {
           uuid,
           time,
           comments,
-          src
+          src,
+          xx,
+          oo,
+          tucao
         });
       }
     }
@@ -75,19 +85,16 @@ const storeImageData = wrapper => {
   store[currentPage] = items;
 
   updateImageContainer();
-  // console.log("store :", store);
+  console.log("store :", store);
 };
 
 // 获取下一页数据
-const loadNextPage = async () => {
+const fetchNextPage = async () => {
   const nextPage = currentPage - 1;
   if (!loading && !store[nextPage]) {
     loading = true;
-    // console.log(`load http://jandan.net/pic/page-${nextPage}`);
     const resp = await fetch(`http://jandan.net/pic/page-${nextPage}`);
-    // console.log("resp :", resp);
     const html = await resp.text();
-    // console.log("html :", html);
     currentPage -= 1;
     const dom = parseHTML(html);
     if (dom.wrapper) {
@@ -97,14 +104,26 @@ const loadNextPage = async () => {
   }
 };
 
+// 获取吐槽数据
+const fetchToCaoById = async id => {
+  // if (!tocao[id]) {
+  const resp = await fetch(`http://jandan.net/tucao/${id}`);
+  const text = await resp.text();
+  const data = JSON.parse(text);
+  console.log("data :", data);
+  // tocao[id] = resp
+  // }
+};
+
+// 快捷键提示
 const initKeyboardHint = () => {
-  const container = document.querySelector('.viewer-container');
-  const hint = document.querySelector('.viewer-hint');
+  const container = document.querySelector(".viewer-container");
+  const hint = document.querySelector(".viewer-hint");
   const hintTmpl = `
   <div class="viewer-hint">
-    <a>查看快捷键</a>
+    <a tabindex="1">快捷键</a>
     <ul>
-      <li><span>Esc</span>: 退出全屏或关闭查看器或退出模式模式或停止播放。</li>
+      <li><span>Esc</span>: 关闭查看器或停止播放。</li>
       <li><span>Space</span>: 停止播放。</li>
       <li><span>←</span>: 查看上一张图片。</li>
       <li><span>→</span>: 查看下一张图片。</li>
@@ -115,10 +134,43 @@ const initKeyboardHint = () => {
     </ul>
   </div>`;
 
-  if(!hint) {
+  if (!hint) {
     append(container, hintTmpl);
   }
-}
+};
+
+// 吐槽
+const initToCao = () => {
+  const container = document.querySelector(".viewer-container");
+  const tocaoEl = document.querySelector(".viewer-tocao");
+  const tocaoTmpl = `
+  <div class="viewer-tocao">
+  <a id="tocao_btn">💦 吐槽</a>
+    <div class="viewer-sider></div>
+  </div>`;
+
+  if (!tocaoEl) {
+    append(container, tocaoTmpl);
+    document.getElementById("tocao_btn").addEventListener("click", () => {
+      const { images, index } = gallery;
+      console.log("gallery :", gallery);
+      console.log("id :", images[index].dataset["id"]);
+      const currentId = images[index].dataset["id"];
+      fetchToCaoById(currentId);
+    });
+  }
+};
+
+// 图片 ooxx 
+const initOOXX = () => {
+  const container = document.querySelector(".viewer-container");
+  const tocaoEl = document.querySelector(".viewer-tocao");
+  const tocaoTmpl = `
+  <div class="viewer-tocao">
+  <a id="tocao_btn">💦 吐槽</a>
+    <div class="viewer-sider></div>
+  </div>`;
+};
 
 // 开启传送门
 const initGalleryBtn = () => {
@@ -152,7 +204,7 @@ const initImageContainer = () => {
         let target = event.target;
         let isImg = target.tagName.toLowerCase() === "img";
         if (isImg) {
-          target.remove();
+          target.parentNode.remove();
           gallery.update();
           // console.log("image log error", target);
           return;
@@ -168,18 +220,21 @@ const initImageContainer = () => {
     imageContainer.addEventListener("viewed", () => {
       // console.log("viewed");
       // console.log("gallery :", gallery);
-      const { image } = gallery;
+      const { image, index, images } = gallery;
+      const { xx, oo, tucao } = images[index].dataset;
+      console.log("object :", { xx, oo, tucao });
+      document.getElementById('tocao_btn').textContent = `💦 吐槽 (${tucao})`;
       if (image) {
         const { naturalHeight: height, naturalWidth: width } = image;
         if (height > width * 2.5) {
-          gallery.zoomTo(.8);
+          gallery.zoomTo(0.8);
           gallery.moveTo(gallery.x, 0);
         }
       }
 
       if (gallery.index > gallery.length - 10) {
         // console.log("need to load next page");)
-        loadNextPage();
+        fetchNextPage();
       }
     });
   }
@@ -192,28 +247,16 @@ const initGallery = () => {
       // 2 methods are available here: "show" and "destroy".
       // console.log('gallery is ready');
       // 防止首页加载太少直接闪退
-      setTimeout(()=>{
+      setTimeout(() => {
         loading = false;
-      },500)
+      }, 500);
 
       initKeyboardHint();
+      initToCao();
     },
     backdrop: false,
     transition: false,
-    loop: false,
-    toolbar: {
-      zoomIn: true,
-      zoomOut: true,
-      oneToOne: true,
-      reset: true,
-      prev: true,
-      play: true,
-      next: true,
-      rotateLeft: true,
-      rotateRight: true,
-      flipHorizontal: true,
-      flipVertical: true
-    }
+    loop: false
   };
   let index = 0;
 
@@ -238,7 +281,9 @@ const updateImageContainer = () => {
       image =>
         `<li><img src="${image.src}" alt="${image.auther} @ ${
           image.time
-        }" /></li>`
+        }" data-page="${currentPage}" data-id="${image.id}" data-xx="${
+          image.xx
+        }" data-oo="${image.oo}" data-tucao="${image.tucao}" /></li>`
     )
     .join("")}`;
   append(imageContainer, tmpl);

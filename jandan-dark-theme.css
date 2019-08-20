@@ -29,6 +29,23 @@ html body #wrapper #body a:hover {
   color: #c00 !important;
 }
 
+html body .viewer-container .viewer-tocao > a, html body .viewer-container .viewer-hint > a, html body .viewer-container .viewer-title {
+  line-height: 1.5;
+  padding: 0.5em 1.2em;
+  border-radius: 0.2em;
+  font-size: 12px;
+}
+
+html body .viewer-container .viewer-tocao > a, html body .viewer-container .viewer-hint > a {
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+html body .viewer-container .viewer-tocao > a:hover, html body .viewer-container .viewer-hint > a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
 #gallery_btn {
   cursor: pointer;
   float: right;
@@ -45,6 +62,11 @@ html ::selection {
 
 html body #header .logo h1 a {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAADGElEQVR4nO2aPW4bMRCFnwN3hmXAlYpYXbLIBXyC+ALpc4qUqVPmFOlzAecEuoCxdic1rgJYgWql0C5s0xySQw7JFTUfYLhYLknt8M0PSUBRFEVRlCa4XD+sL9cP69rzUPa8qz0BJS8n0h2a6v179eFKegwlnFwKfj/8KZVJV/D5bsdq/+9E3GsoNBqDG4evJq5ifaiis6IKbpxw9SQrdzv8P7M/ViVnobCCCeMq2fCrRjrm+lAli1IpBm/9TRQRKhlYXXUpNItunFPyyfXTEwDgzt3B7e8/AICbL5+NJ6+zZrodMe7y4sLdkKbv+z60bdd1XWwf1Luxc8kBbeA9s/QhtmC65BmATfq4+BjQ5j6hD9+73LlkwWdgL25FngW2U3KRbGCasolUrCtMcaEv3/W4a47aR2yqd/Vj9RJva87Uuveb8b1+esOUm8C6ePjYtVzhfUg8DsXxW6zjuBZpRgUrgN9DSCwMVx/PBi69YxXKOK8wJce4whJQnoU9X9eCsRm6GQVLusgJw87qT8WVmxpzKc53uxb3qXPXyc0oOPVDjR6A6if0ORNuUsh26RYDe85tp01sFm1+OLMf7vNscBcSoeCDNO4hwq5ruZ7KYmA1bkmYdS3bQzUTgwkohZTeEKlWvtEG/jTs998JnDdwEB7XVEjp0x3h8k0iyWqL2sd10vCTLLO23J/HFpathb2SNynnwqh4TDcivcAEkiwAz+extQwtcR48JaQWmkCSNSpmvFlRizTljkwlyapG8zG4dpLlgVsHs+vm5g08MYO+gXu+K30evEH5OCwZf4/GFVPQBn4di2fZ62GZrPng4HoYqSzapISSc2TOtpg1JVVz55JhqzK3kjMr92XMmno8zgE3ycqhZEnlhmzlSbThbhmWuFVphX9DYlDy7Y8lAODm+zXr9f7XIwCg+zoHjjDmhsC9VekitkzaAFguFosFgDnz3cfVarUC5ryVoUQRfcdpjGfcFRX7Xmi/JlIxOPbKTsKYIi66tY2OkKs0MVl06pWdCe1FezBXZKgiY99T0ohVcOyls2qX1Y6V/6YYJrzHZJMSAAAAAElFTkSuQmCC");
+}
+
+html body #nav_prev,
+html body #nav_next {
+  color: #444;
 }
 
 html body #wrapper {
@@ -114,12 +136,20 @@ html body #wrapper #body #sidebar .hot-list {
   margin-top: 20px;
 }
 
-html body #wrapper #body #sidebar .hot-list .hot-tabs li {
+html body #wrapper #body #sidebar .hot-list .hot-tabs > li {
+  color: #444;
   border-bottom: 0;
+  border-color: #343434;
 }
 
-html body #wrapper #body #sidebar .hot-list .hot-tabs li:first-child {
+html body #wrapper #body #sidebar .hot-list .hot-tabs > li:first-child {
   margin-left: 40px;
+}
+
+html body #wrapper #body #sidebar .hot-list .hot-tabs > li.current {
+  background: 0;
+  color: #9c9c9c;
+  border-color: #4e4e4e;
 }
 
 html body #wrapper #body #sidebar .hot-list .host-list-split {
@@ -173,7 +203,79 @@ html body #wrapper #footer {
 }
 
 html body .viewer-container {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+html body .viewer-container .viewer-title {
+  color: #fff;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+html body .viewer-container .viewer-tocao {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+}
+
+html body .viewer-container .viewer-tocao > a {
+  z-index: 99;
+  position: absolute;
+  right: 20px;
+  bottom: 92px;
+}
+
+html body .viewer-container .viewer-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+}
+
+html body .viewer-container .viewer-hint > a {
+  z-index: 100;
+  position: absolute;
+  left: 20px;
+  bottom: 92px;
+}
+
+html body .viewer-container .viewer-hint > a:focus + ul {
+  display: block;
+}
+
+html body .viewer-container .viewer-hint > ul {
+  display: none;
+  padding: 20px 40px;
+  text-align: left;
+  font-size: 14px;
+  border-radius: 10px;
+  width: 250px;
+  bottom: 130px;
+  left: 20px;
+  position: absolute;
+  color: #333;
+  line-height: 2.5;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+html body .viewer-container .viewer-hint > ul li {
+  list-style: none;
+}
+
+html body .viewer-container .viewer-hint > ul li span {
+  background: #333;
+  text-align: center;
+  color: #eee;
+  border-radius: .3em;
+  margin: .1em;
+  padding: .1em .5em;
+  min-width: 2.3em;
+  height: 100%;
+  border: 1px solid #444;
+  border-bottom-color: #444444;
+  -webkit-box-shadow: 0 0.2em 0 0.05em #222;
+          box-shadow: 0 0.2em 0 0.05em #222;
+  border-bottom-color: #555;
 }
 
 #imagesTmpl {

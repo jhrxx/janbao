@@ -27,7 +27,6 @@ $brage: #ae1d18;
 }
 %btn {
   color: $a;
-
   border: 0;
   background-color: #262626;
   &:hover {
@@ -39,6 +38,21 @@ $brage: #ae1d18;
     &:hover {
       color: $link-hover !important;
     }
+  }
+}
+%title-text {
+  line-height: 1.5;
+  padding: 0.5em 1.2em;
+  border-radius: 0.2em;
+  font-size: 12px;
+}
+%gallery-btn {
+  @extend %title-text;
+  color: #000;
+  background-color: rgba(#fff, .3);
+  &:hover {
+    background-color: rgba(#fff, .5);
+    cursor: pointer;
   }
 }
 
@@ -58,6 +72,10 @@ html {
     @extend %bg;
     #header .logo h1 a {
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAADGElEQVR4nO2aPW4bMRCFnwN3hmXAlYpYXbLIBXyC+ALpc4qUqVPmFOlzAecEuoCxdic1rgJYgWql0C5s0xySQw7JFTUfYLhYLknt8M0PSUBRFEVRlCa4XD+sL9cP69rzUPa8qz0BJS8n0h2a6v179eFKegwlnFwKfj/8KZVJV/D5bsdq/+9E3GsoNBqDG4evJq5ifaiis6IKbpxw9SQrdzv8P7M/ViVnobCCCeMq2fCrRjrm+lAli1IpBm/9TRQRKhlYXXUpNItunFPyyfXTEwDgzt3B7e8/AICbL5+NJ6+zZrodMe7y4sLdkKbv+z60bdd1XWwf1Luxc8kBbeA9s/QhtmC65BmATfq4+BjQ5j6hD9+73LlkwWdgL25FngW2U3KRbGCasolUrCtMcaEv3/W4a47aR2yqd/Vj9RJva87Uuveb8b1+esOUm8C6ePjYtVzhfUg8DsXxW6zjuBZpRgUrgN9DSCwMVx/PBi69YxXKOK8wJce4whJQnoU9X9eCsRm6GQVLusgJw87qT8WVmxpzKc53uxb3qXPXyc0oOPVDjR6A6if0ORNuUsh26RYDe85tp01sFm1+OLMf7vNscBcSoeCDNO4hwq5ruZ7KYmA1bkmYdS3bQzUTgwkohZTeEKlWvtEG/jTs998JnDdwEB7XVEjp0x3h8k0iyWqL2sd10vCTLLO23J/HFpathb2SNynnwqh4TDcivcAEkiwAz+extQwtcR48JaQWmkCSNSpmvFlRizTljkwlyapG8zG4dpLlgVsHs+vm5g08MYO+gXu+K30evEH5OCwZf4/GFVPQBn4di2fZ62GZrPng4HoYqSzapISSc2TOtpg1JVVz55JhqzK3kjMr92XMmno8zgE3ycqhZEnlhmzlSbThbhmWuFVphX9DYlDy7Y8lAODm+zXr9f7XIwCg+zoHjjDmhsC9VekitkzaAFguFosFgDnz3cfVarUC5ryVoUQRfcdpjGfcFRX7Xmi/JlIxOPbKTsKYIi66tY2OkKs0MVl06pWdCe1FezBXZKgiY99T0ohVcOyls2qX1Y6V/6YYJrzHZJMSAAAAAElFTkSuQmCC");
+    }
+    #nav_prev,
+    #nav_next {
+      color: $t;
     }
 
     #wrapper {
@@ -129,10 +147,17 @@ html {
           .hot-list {
             margin-top: 20px;
             .hot-tabs {
-              li {
+              & > li {
+                color: $t;
                 border-bottom: 0;
+                border-color: $border;
                 &:first-child {
                   margin-left: 40px;
+                }
+                &.current {
+                  background: 0;
+                  color: $text;
+                  border-color: lighten($border, 10);
                 }
               }
             }
@@ -184,7 +209,74 @@ html {
       }
     }
     .viewer-container {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(#000, .4);
+      .viewer-title {
+        @extend %title-text;
+        color: #fff;
+        background-color: rgba(#000, .8);
+      }
+      .viewer-tocao {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 50%;
+
+        & > a {
+          @extend %gallery-btn;
+          z-index: 99;
+          position: absolute;
+          right: 20px;
+          bottom: 92px;
+        }
+      }
+      .viewer-hint {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 50%;
+
+        & > a {
+          @extend %gallery-btn;
+          z-index: 100;
+          position: absolute;
+          left: 20px;
+          bottom: 92px;
+          &:focus + ul {
+            display: block;
+          }
+        }
+        & > ul {
+          display: none;
+          padding: 20px 40px;
+          text-align: left;
+          font-size: 14px;
+          border-radius: 10px;
+          width: 250px;
+          bottom: 130px;
+          left: 20px;
+          position: absolute;
+          color: #333;
+          line-height: 2.5;
+          background-color: rgba(#fff, .8);
+          li {
+            list-style: none;
+            span {
+              background: #333;
+              text-align: center;
+              color: #eee;
+              border-radius: .3em;
+              margin: .1em;
+              padding: .1em .5em;
+              min-width: 2.3em;
+              height: 100%;
+              border: 1px solid #444;
+              border-bottom-color: rgb(68, 68, 68);
+              box-shadow: 0 0.2em 0 0.05em #222;
+              border-bottom-color: #555;
+            }
+          }
+        }
+      }
     }
   }
 }
