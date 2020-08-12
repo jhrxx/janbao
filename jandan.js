@@ -291,9 +291,26 @@ const updateImageContainer = () => {
   initGallery();
 };
 
-const helpWizard = display => {
-  if (display) {
-    localStorage.setItem("help-wizard", "display");
+const helpWizard = () => {
+  console.log('helpWizard!')
+  // help wizard flag
+  const data = localStorage.getItem("help-wizard") || "{}";
+  console.log('data', data)
+  let flag = JSON.parse(data)
+  console.log('flag: ', flag)
+  if(!flag.theme) {
+    driver.highlight({
+      element: "#theme_dark",
+      popover: {
+        title: "开启夜间护眼模式",
+        description: "点击 “夜间” ，“原版” 以切换模式"
+      }
+    });
+    flag.theme = true
+  
+    localStorage.setItem("help-wizard", JSON.stringify(flag));
+  }
+  if(!flag.gallery && document.getElementById('gallery_btn')){
     driver.highlight({
       element: "#gallery_btn",
       popover: {
@@ -301,6 +318,9 @@ const helpWizard = display => {
         description: "无需翻页即刻开启快速浏览模式"
       }
     });
+    flag.gallery = true
+  
+    localStorage.setItem("help-wizard", JSON.stringify(flag));
   }
 };
 
@@ -323,31 +343,76 @@ const getCurrentPage = () => {
   }
 };
 
+const bindUserStyle = () => {
+  const html = document.querySelector("html");
+  const theme = localStorage.getItem("theme");
+
+  if (theme) {
+    html.classList.add(theme);
+  } else {
+    localStorage.setItem("theme", "default");
+  }
+
+
+  if (!document.querySelector("#theme")) {
+    const nav = document.querySelectorAll("#header .nav-items")[0];
+    const themeCtrl =
+      `<li id="theme" class="nav-item" style="float:right;">
+        <a class="nav-link" data-theme="default">原版</a></li>
+        <li id="theme_dark" class="nav-item" style="float:right;">
+        <a class="nav-link" data-theme="dark">夜间</a></li>`;
+    append(nav, themeCtrl);
+  }
+
+  document.querySelectorAll("#header a").forEach(el => {
+    el.addEventListener("click", () => {
+      const currentTheme = localStorage.getItem("theme");
+      const theme = el.getAttribute("data-theme");
+      if (theme && currentTheme !== theme) {
+        html.classList.remove(currentTheme);
+        html.classList.add(theme);
+        localStorage.setItem("theme", theme);
+      }
+    });
+  });
+  
+  document.addEventListener("visibilitychange", state => {
+    if (document.visibilityState === "visible") {
+      const theme = localStorage.getItem("theme");
+      if (html.className !== theme) {
+        html.className = theme;
+      }
+    }
+  });
+}
+
 ready(() => {
-  // help wizard flag
-  const flag = localStorage.getItem("help-wizard");
+  console.log('ready')
   // 图片页面 TODO：列表
   const isPicPage = location.pathname.indexOf("/pic") === 0;
 
-  if (isPicPage) {
-    const wrapper = document.querySelector("#wrapper");
-    currentPage = getCurrentPage();
+  bindUserStyle()
 
-    //  创建传送门
-    initGalleryBtn();
+  // if (isPicPage) {
+  //   const wrapper = document.querySelector("#wrapper");
+  //   currentPage = getCurrentPage();
 
-    initImageContainer();
+  //   //  创建传送门
+  //   initGalleryBtn();
 
-    storeImageData(wrapper);
+  //   initImageContainer();
 
-    setTimeout(() => {
-      helpWizard(!flag);
+  //   storeImageData(wrapper);
+  // }
+  console.log('bindUserStyle done!')
+  setTimeout(() => {
+    helpWizard();
+    
 
-      // gif-click-load
-      // nsfw-click-load
-      // bad-click-load
-      // console.log('nsfw :', getCookie('nsfw-click-load'));
-      // console.log('bad :', getCookie('bad-click-load'));
-    }, 100);
-  }
+    // gif-click-load
+    // nsfw-click-load
+    // bad-click-load
+    // console.log('nsfw :', getCookie('nsfw-click-load'));
+    // console.log('bad :', getCookie('bad-click-load'));
+  }, 1000);
 });

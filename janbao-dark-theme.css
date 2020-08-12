@@ -29,16 +29,24 @@ html.dark body .DataList {
   background: #1a1a1a;
 }
 
-html.dark body .DataList .Title {
-  font-weight: normal;
+html.dark body .DataList .Mine {
+  background-color: #2b2b2b;
 }
 
 html.dark body .DataList .Item {
   border-color: #343434 !important;
 }
 
+html.dark body .DataList .Item .Title a {
+  color: #c6ad8e !important;
+}
+
 html.dark body .DataList .Item.Read {
-  background-color: #1c1c1c;
+  background-color: #1c1c1c !important;
+}
+
+html.dark body .DataList .Item.Read .Title a {
+  color: #ac885b !important;
 }
 
 html.dark body .DataList .Item li.CommentForm {

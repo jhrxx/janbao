@@ -7,6 +7,7 @@ $primary: #30c39e;
 $text: #9c9c9c;
 $t: #444;
 $a: #666;
+$w: #fff;
 
 $link-hover: #c00;
 // $dark-yellow: #ac885b;
@@ -25,7 +26,15 @@ $brage: #ae1d18;
   border: 1px solid $text;
   background-color: $bg !important;
 }
-%btn {
+%light-btn {
+  color: $w;
+  border: 0;
+  background-color: #aaa;
+  &:hover {
+    background-color: #444;
+  }
+}
+%dark-btn {
   color: $a;
   border: 0;
   background-color: #262626;
@@ -60,11 +69,19 @@ $brage: #ae1d18;
   cursor: pointer;
   float: right;
   padding: 10px 20px;
-  @extend %btn;
+  @extend %light-btn;
 }
 
 html {
+  .nav-link {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+html.dark {
   ::selection {
+    color:$a; 
     background: $divider;
   }
   @extend %bg;
@@ -116,7 +133,7 @@ html {
           }
           .cp-pagenavi {
             & > a {
-              @extend %btn;
+              @extend %dark-btn;
             }
           }
           .tucao-form,
@@ -126,7 +143,7 @@ html {
               @extend %input;
             }
             input[type="submit"] {
-              @extend %btn;
+              @extend %dark-btn;
             }
           }
         }
@@ -141,7 +158,7 @@ html {
             button {
               background-color: $bg;
               text-indent: 0;
-              @extend %btn;
+              @extend %dark-btn;
             }
           }
           .hot-list {
@@ -279,7 +296,15 @@ html {
       }
     }
   }
+  // ul {
+  //   background-color: $dark-bg;
+  // }
+  
+  #gallery_btn {
+    @extend %dark-btn;
+  }
 }
+  
 #imagesTmpl {
   display: none !important;
 }
