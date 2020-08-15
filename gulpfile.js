@@ -31,7 +31,7 @@ gulp.task('js', () => {
         .pipe(gulp.dest(dist))
 });
 
-gulp.task('json',  ()=> {
+gulp.task('json', () => {
     return gulp.src('manifest.json')
         .pipe(gulp.dest(dist));
 });
@@ -45,20 +45,20 @@ gulp.task('img', () => {
 gulp.task('zip', () => {
     return gulp.src(dist + '/*')
         .pipe(zip(dist + '.zip'))
-        .pipe(gulp.dest())
+        .pipe(gulp.dest(dist))
 });
 
 gulp.task('rename', () => {
-    fs.rename(dist + '/' + dist + '.zip', dist + '/' + dist + '.xpi', function (err) {
+    fs.rename(dist + '/' + dist + '.zip', dist + '/' + dist + '.xpi', (err) => {
         if (err) throw err;
         console.log('renamed complete');
     });
 });
 
-gulp.task('default', ['clean'], function () {
-    gulp.start(['img', 'css', 'js', 'json']);
-});
+gulp.task('default', gulp.series('clean', 'img', 'css', 'js', 'json', () => {
+    console.log('done!')
+}));
 
-gulp.task('ff', ['zip'], function () {
-    gulp.start(['rename']);
-});
+gulp.task('ff', gulp.series('zip', 'rename', () => {
+    console.log('done!')
+}));
