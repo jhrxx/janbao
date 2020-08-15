@@ -1,24 +1,167 @@
 let imageContainer;
-let currentPage;
+let prevPage;
 let gallery;
-let store = {};
-// let tocao = {};
+let store = {
+  ooxx: {},
+  pic: {},
+  zoo: {}
+};
+// let tucao = {};
 let loading = true;
 
-const btn = `<a id="gallery_btn">🖼️ 开启传送门</a>`;
+const isNSFW = getCookie('nsfw-click-load') !== 'off'
+const isDislike = getCookie('bad-click-load') !== 'off'
+const page = location.pathname.split('/')[1]
+const isPicPage = page === 'pic';
+const isZooPage = page === 'zoo';
+const isOOXXPage = page === 'ooxx';
+const isGalleryPage = isPicPage || isZooPage || isOOXXPage;
+const galleryBtn = `<a id="gallery_btn">🌌 开启传送门</a>`;
 
-// 初始化 Driver
-const driver = new Driver({
-  doneBtnText: "完成", // Text on the final button
-  closeBtnText: "关闭", // Text on the close button for this step
-  stageBackground: "#eee", // Background color for the staged behind highlighted element
-  nextBtnText: "下一个", // Next button text for this step
-  prevBtnText: "上一个"
-});
+// 初始化 viewer 模板， 事件绑定
+const initImageContainer = () => {
+  if (!imageContainer) {
+    append(document.body, '<ul id="images_tmpl"></ul>');
+    imageContainer = document.getElementById("images_tmpl");
+
+    // 监听图片加载失败
+    imageContainer.addEventListener(
+      "error",
+      event => {
+        let target = event.target;
+        let isImg = target.tagName.toLowerCase() === "img";
+        if (isImg) {
+          target.parentNode.remove();
+          gallery.update();
+          return;
+        }
+      },
+      {
+        capture: true
+      },
+      true
+    );
+
+    // 图片浏览钩子
+    imageContainer.addEventListener("viewed", () => {
+      const { image, index, images } = gallery;
+      const { xx, oo, tucao } = images[index].dataset;
+      const tuCaoBtn = document.getElementById('tucao_btn');
+      const ooBtn = document.getElementById('oo_btn')
+      const xxBtn = document.getElementById('xx_btn')
+      tuCaoBtn.textContent = tucao === '0'?'💦 暂无吐槽':`💦 吐槽 (${tucao})`;
+      ooBtn.innerHTML = `⭕⭕ [<i>${oo}</i>]`;
+      xxBtn.innerHTML = `❌❌ [<i>${xx}</i>]`;
+      ooBtn.classList.remove('disabled')
+      xxBtn.classList.remove('disabled')
+      if (image) {
+        const { naturalHeight: height, naturalWidth: width } = image;
+        if (height > width * 2.5) {
+          gallery.zoomTo(0.8);
+          gallery.moveTo(gallery.x, 0);
+        }
+      }
+
+      // 最后一张图片
+      if (gallery.index === gallery.length - 1) {
+        fetchPrevPage();
+      }
+    });
+  }
+};
+
+// 初始化页面数据
+const initComments = (comments) => {
+  if (!comments) {
+    comments = document.querySelector("#comments")
+  }
+  prevPage = comments.querySelector('.previous-comment-page')
+
+  storeImageData(comments)
+}
+
+// 创建viewer实例  见证奇迹
+const initGallery = () => {
+  const options = {
+    ready() {
+      // 2 methods are available here: "show" and "destroy".
+      // console.log('gallery is ready');
+      // 防止首页加载太少直接闪退
+      setTimeout(() => {
+        loading = false;
+      }, 500);
+
+      initKeyboardHint();
+      initTuCao();
+      initOOXX();
+    },
+    backdrop: false,
+    transition: false,
+    loop: false
+  };
+  let index = 0;
+
+  if (gallery) {
+    index = gallery.index;
+
+    gallery.destroy();
+  } else {
+    //  创建传送门
+    initGalleryBtn()
+  }
+
+  gallery = new Viewer(imageContainer, options);
+
+  if (index) {
+    // gallery.view(index);
+    gallery.update();
+    setTimeout(() => {
+      gallery.view(index);
+    }, 0)
+  }
+};
+
+// 开启传送门
+const initGalleryBtn = () => {
+  const btnContainer = document.querySelector(".comments");
+  if (!document.querySelector("#gallery_btn")) {
+    prepend(btnContainer, galleryBtn);
+  }
+
+  // bind event
+  btnContainer.querySelector("#gallery_btn").addEventListener("click", () => {
+    gallery && gallery.show();
+  });
+};
+
+// 快捷键提示
+const initKeyboardHint = () => {
+  const container = document.querySelector(".viewer-container");
+  const hint = document.querySelector(".viewer-hint");
+  const hintTmpl = `
+  <div class="viewer-hint">
+    <a tabindex="1">⌨️ 快捷键</a>
+    <ul>
+      <li><span>Esc</span>: 关闭查看器或停止播放。</li>
+      <li><span>Space</span>: 停止播放。</li>
+      <li><span>←</span>: 查看上一张图片。</li>
+      <li><span>→</span>: 查看下一张图片。</li>
+      <li><span>↑</span>: 放大图片。</li>
+      <li><span>↓</span>: 缩小图片。</li>
+      <li><span>Ctrl + 0</span>: 缩小到初始大小。</li>
+      <li><span>Ctrl + 1</span>: 放大到自然尺寸。</li>
+    </ul>
+  </div>`;
+
+  if (!hint) {
+    append(container, hintTmpl);
+  }
+};
 
 // 构造图片数据
 const storeImageData = wrapper => {
-  let list = [];
+  // 当前页面图片数据
+  const data = {}
   wrapper.querySelectorAll("ol.commentlist>li").forEach(item => {
     const getNum = className => {
       return item.querySelector(className).textContent.match(/\d/)[0];
@@ -44,305 +187,159 @@ const storeImageData = wrapper => {
       //   .replace(/PLAY/gi, "")
       //   .split("[查看原图]")
       //   .join("");
-      const dislikeText = "因不受欢迎已被超载鸡自动隐藏.  [手贱一回]";
+      const dislikeText = "因不受欢迎已被超载鸡自动隐藏";
       const NSFWText = "NSFW";
-      const dislike = comments.includes(dislikeText);
-      // const NSFW = comments.includes(NSFWText);
-      if (!dislike) {
-        list.push({
-          id,
-          auther,
-          uuid,
-          time,
-          comments,
-          src,
-          xx,
-          oo,
-          tucao
-        });
+      const dislike = comments.includes(dislikeText) && isDislike;
+      const nsfw = comments.includes(NSFWText) && isNSFW;
+      const isBroken = src.indexOf('default_w_large.gif') > 0 // 渣浪破图
+      if (!dislike && !nsfw && !isBroken) {
+        data[id] = { auther, uuid, time, comments, src, xx, oo, tucao }
       }
     }
   });
+  // 存储数据
+  store[page] = Object.assign(store[page], data)
 
-  let items = [];
-  list.forEach(image => {
-    // const imgNum = image.src.length;
-    // const comNum = image.comments.length;
+  updateImageContainer(data);
+};
 
-    image.src.forEach((item, index) => {
-      const txt = image.comments[index];
-      const comments = txt ? txt : "";
-      items.push({
-        ...image,
-        src: item,
-        comments
-      });
-    });
-  });
+// 更新 viewer 模板
+const updateImageContainer = (images) => {
+  const tmpl = `${Object.keys(images).sort((a, b) => {
+    return b - a;
+  }).map(key => {
+    return images[key].src.map((src) => {
+      return `<li><img src="${src}" alt="${images[key].auther} @ ${
+        images[key].time
+        }" data-id="${key}" data-xx="${
+        images[key].xx
+        }" data-oo="${images[key].oo}" data-tucao="${
+        images[key].tucao
+        }"/></li>`
+    })
+  }).join('')}`;
 
-  // console.table(items);
-  // console.log("set page data:", page);
-  store[currentPage] = items;
+  append(imageContainer, tmpl);
 
-  updateImageContainer();
-  console.log("store :", store);
+  initGallery();
 };
 
 // 获取下一页数据
-const fetchNextPage = async () => {
-  const nextPage = currentPage - 1;
-  if (!loading && !store[nextPage]) {
+const fetchPrevPage = async () => {
+  if (!loading && prevPage && prevPage.href) {
     loading = true;
-    const resp = await fetch(`http://jandan.net/pic/page-${nextPage}`);
+    const resp = await fetch(prevPage.href);
     const html = await resp.text();
-    currentPage -= 1;
     const dom = parseHTML(html);
     if (dom.wrapper) {
-      storeImageData(dom.wrapper);
+      initComments(dom.wrapper);
     }
     loading = false;
   }
 };
 
 // 获取吐槽数据
-const fetchToCaoById = async id => {
-  // if (!tocao[id]) {
-  const resp = await fetch(`http://jandan.net/tucao/${id}`);
+const fetchTuCaoById = async id => {
+  // if (!tucao[id]) {
+  const resp = await fetch(`//jandan.net/tucao/${id}`);
   const text = await resp.text();
   const data = JSON.parse(text);
-  console.log("data :", data);
-  // tocao[id] = resp
+  console.log("tucao data :", data);
+  // tucao[id] = resp
   // }
 };
 
-// 快捷键提示
-const initKeyboardHint = () => {
-  const container = document.querySelector(".viewer-container");
-  const hint = document.querySelector(".viewer-hint");
-  const hintTmpl = `
-  <div class="viewer-hint">
-    <a tabindex="1">快捷键</a>
-    <ul>
-      <li><span>Esc</span>: 关闭查看器或停止播放。</li>
-      <li><span>Space</span>: 停止播放。</li>
-      <li><span>←</span>: 查看上一张图片。</li>
-      <li><span>→</span>: 查看下一张图片。</li>
-      <li><span>↑</span>: 放大图片。</li>
-      <li><span>↓</span>: 缩小图片。</li>
-      <li><span>Ctrl + 0</span>: 缩小到初始大小。</li>
-      <li><span>Ctrl + 1</span>: 放大到自然尺寸。</li>
-    </ul>
-  </div>`;
-
-  if (!hint) {
-    append(container, hintTmpl);
-  }
-};
-
 // 吐槽
-const initToCao = () => {
+const initTuCao = () => {
   const container = document.querySelector(".viewer-container");
-  const tocaoEl = document.querySelector(".viewer-tocao");
-  const tocaoTmpl = `
-  <div class="viewer-tocao">
-  <a id="tocao_btn">💦 吐槽</a>
+  const tucaoEl = document.querySelector(".viewer-tucao");
+  const tucaoTmpl = `
+  <div class="viewer-tucao">
+    <a id="tucao_btn">💦 吐槽</a>
     <div class="viewer-sider></div>
   </div>`;
 
-  if (!tocaoEl) {
-    append(container, tocaoTmpl);
-    document.getElementById("tocao_btn").addEventListener("click", () => {
+  if (!tucaoEl) {
+    append(container, tucaoTmpl);
+    document.getElementById("tucao_btn").addEventListener("click", () => {
       const { images, index } = gallery;
-      console.log("gallery :", gallery);
-      console.log("id :", images[index].dataset["id"]);
-      const currentId = images[index].dataset["id"];
-      fetchToCaoById(currentId);
+      const {id,tucao} = images[index].dataset;
+      // if(tucao === '0') {
+      window.open(`http://jandan.net/t/${id}`)
+        // http://jandan.net/t/4665472
+      // } else {
+        // fetchTuCaoById(id);
+      // }
     });
   }
 };
 
-// 图片 ooxx 
+// 图片 ⭕⭕❌❌
 const initOOXX = () => {
   const container = document.querySelector(".viewer-container");
-  const tocaoEl = document.querySelector(".viewer-tocao");
-  const tocaoTmpl = `
-  <div class="viewer-tocao">
-  <a id="tocao_btn">💦 吐槽</a>
-    <div class="viewer-sider></div>
-  </div>`;
-};
+  const ooxxEl = document.querySelector(".viewer-xxoo");
+  const ooxxTmpl = `
+    <div class="viewer-ooxx">
+      <a id="oo_btn">⭕⭕</a>
+      <a id="xx_btn">❌❌</a>
+    </div>`;
+  if (!ooxxEl) {
+    append(container, ooxxTmpl);
+    const ooBtn = document.getElementById('oo_btn')
+    const xxBtn = document.getElementById('xx_btn')
 
-// 开启传送门
-const initGalleryBtn = () => {
-  const btnContainer = document.querySelector(".comments");
-  if (!document.querySelector("#gallery_btn")) {
-    prepend(btnContainer, btn);
-  }
+    const voteFn = async (e) => {
+      if (e.classList && e.classList.contains('disabled')) {
+        return
+      }
+      const { images, index } = gallery;
+      const { xx, oo } = images[index].dataset;
+      const plus1 = val => {
+        return parseInt(val, 10) + 1
+      }
+      ooBtn.classList.add('disabled')
+      xxBtn.classList.add('disabled')
+      if (e.id === 'xx_btn') {
+        xxBtn.innerHTML = `❌❌ [<i>${plus1(xx)}</i>]`;
+      } else {
+        ooBtn.innerHTML = `⭕⭕ [<i>${plus1(oo)}</i>]`;
+      }
 
-  // bind event
-  btnContainer.querySelector("#gallery_btn").addEventListener("click", () => {
-    gallery && gallery.show();
-  });
-};
-
-// 初始化 viewer 模板， 事件绑定
-const initImageContainer = () => {
-  if (!imageContainer) {
-    const tmpl = `
-      <ul id="imagesTmpl">
-      </ul>
-    `;
-
-    append(document.body, tmpl);
-
-    imageContainer = document.getElementById("imagesTmpl");
-
-    // 监听图片加载失败
-    imageContainer.addEventListener(
-      "error",
-      event => {
-        let target = event.target;
-        let isImg = target.tagName.toLowerCase() === "img";
-        if (isImg) {
-          target.parentNode.remove();
-          gallery.update();
-          // console.log("image log error", target);
-          return;
+      const { id } = images[index].dataset;
+      const type = e.id === 'xx_btn' ? 'neg' : 'pos';
+      const resp = await fetch('//jandan.net/api/comment/vote', {
+        method: 'POST',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: `comment_id=${id}&like_type=${type}&data_type=comment`
+      })
+      const { error } = await resp.json()
+      if (error) {
+        if (e.id === 'xx_btn') {
+          xxBtn.innerHTML = `❌❌ [<i>${xx}</i>]`;
+        } else {
+          ooBtn.innerHTML = `⭕⭕ [<i>${oo}</i>]`;
         }
-      },
-      {
-        capture: true
-      },
-      true
-    );
-
-    // 图片浏览钩子
-    imageContainer.addEventListener("viewed", () => {
-      // console.log("viewed");
-      // console.log("gallery :", gallery);
-      const { image, index, images } = gallery;
-      const { xx, oo, tucao } = images[index].dataset;
-      console.log("object :", { xx, oo, tucao });
-      document.getElementById('tocao_btn').textContent = `💦 吐槽 (${tucao})`;
-      if (image) {
-        const { naturalHeight: height, naturalWidth: width } = image;
-        if (height > width * 2.5) {
-          gallery.zoomTo(0.8);
-          gallery.moveTo(gallery.x, 0);
+      } else {
+        if (e.id === 'xx_btn') {
+          images[index].setAttribute("data-xx", plus1(xx))
+        } else {
+          images[index].setAttribute("data-oo", plus1(oo))
         }
       }
-
-      if (gallery.index > gallery.length - 10) {
-        // console.log("need to load next page");)
-        fetchNextPage();
-      }
-    });
-  }
-};
-
-// 创建viewer实例  见证奇迹
-const initGallery = () => {
-  const options = {
-    ready() {
-      // 2 methods are available here: "show" and "destroy".
-      // console.log('gallery is ready');
-      // 防止首页加载太少直接闪退
-      setTimeout(() => {
-        loading = false;
-      }, 500);
-
-      initKeyboardHint();
-      initToCao();
-    },
-    backdrop: false,
-    transition: false,
-    loop: false
-  };
-  let index = 0;
-
-  if (gallery) {
-    index = gallery.index;
-
-    gallery.destroy();
-  }
-
-  gallery = new Viewer(imageContainer, options);
-
-  if (index) {
-    gallery.view(index);
-    gallery.update();
-  }
-};
-
-// 更新 viewer 模板
-const updateImageContainer = () => {
-  const tmpl = `${store[currentPage]
-    .map(
-      image =>
-        `<li><img src="${image.src}" alt="${image.auther} @ ${
-          image.time
-        }" data-page="${currentPage}" data-id="${image.id}" data-xx="${
-          image.xx
-        }" data-oo="${image.oo}" data-tucao="${image.tucao}" /></li>`
-    )
-    .join("")}`;
-  append(imageContainer, tmpl);
-
-  initGallery();
-};
-
-const helpWizard = () => {
-  console.log('helpWizard!')
-  // help wizard flag
-  const data = localStorage.getItem("help-wizard") || "{}";
-  console.log('data', data)
-  let flag = JSON.parse(data)
-  console.log('flag: ', flag)
-  if(!flag.theme) {
-    driver.highlight({
-      element: "#theme_dark",
-      popover: {
-        title: "开启夜间护眼模式",
-        description: "点击 “夜间” ，“原版” 以切换模式"
-      }
-    });
-    flag.theme = true
-  
-    localStorage.setItem("help-wizard", JSON.stringify(flag));
-  }
-  if(!flag.gallery && document.getElementById('gallery_btn')){
-    driver.highlight({
-      element: "#gallery_btn",
-      popover: {
-        title: "开启图片传送门",
-        description: "无需翻页即刻开启快速浏览模式"
-      }
-    });
-    flag.gallery = true
-  
-    localStorage.setItem("help-wizard", JSON.stringify(flag));
-  }
-};
-
-const getCurrentPage = () => {
-  if (currentPage) {
-    return currentPage;
-  } else {
-    let page = 0;
-    // get current page
-    if (location.pathname === "/pic") {
-      // TODO:
-      const wrapper = document.querySelector("#wrapper");
-      page = wrapper
-        .querySelector(".cp-pagenavi span")
-        .textContent.replace(/\[|\]/gi, "");
-    } else {
-      page = location.pathname.replace("/pic/page-", "");
     }
-    return parseInt(page, 10);
+
+    ooBtn.addEventListener("click", voteFn);
+    xxBtn.addEventListener("click", voteFn);
   }
 };
 
+// 自定义theme
 const bindUserStyle = () => {
   const html = document.querySelector("html");
   const theme = localStorage.getItem("theme");
@@ -375,7 +372,7 @@ const bindUserStyle = () => {
       }
     });
   });
-  
+
   document.addEventListener("visibilitychange", state => {
     if (document.visibilityState === "visible") {
       const theme = localStorage.getItem("theme");
@@ -386,33 +383,72 @@ const bindUserStyle = () => {
   });
 }
 
-ready(() => {
-  console.log('ready')
-  // 图片页面 TODO：列表
-  const isPicPage = location.pathname.indexOf("/pic") === 0;
+// 首屏帮助
+const helpWizard = () => {
+  // 初始化 Driver
+  const driver = new Driver({
+    doneBtnText: "完成", // Text on the final button
+    closeBtnText: "关闭", // Text on the close button for this step
+    stageBackground: "#eee", // Background color for the staged behind highlighted element
+    nextBtnText: "下一个", // Next button text for this step
+    prevBtnText: "上一个"
+  });
 
+  // help wizard flag
+  const data = localStorage.getItem("help-wizard") || "{}";
+  let flag = JSON.parse(data)
+  if (!flag.theme) {
+    driver.highlight({
+      element: "#theme_dark",
+      popover: {
+        title: "开启夜间护眼模式",
+        description: "点击 “夜间” ，“原版” 以切换模式"
+      }
+    });
+    flag.theme = true
+
+    localStorage.setItem("help-wizard", JSON.stringify(flag));
+  }
+  if (!flag.gallery && document.getElementById('gallery_btn')) {
+    driver.highlight({
+      element: "#gallery_btn",
+      popover: {
+        title: "开启图片传送门",
+        description: "无需翻页即刻开启快速浏览模式"
+      }
+    });
+    flag.gallery = true
+
+    localStorage.setItem("help-wizard", JSON.stringify(flag));
+  }
+};
+
+
+ready(() => {
   bindUserStyle()
 
-  // if (isPicPage) {
-  //   const wrapper = document.querySelector("#wrapper");
-  //   currentPage = getCurrentPage();
+  if (isGalleryPage) {
+    initImageContainer()
 
-  //   //  创建传送门
-  //   initGalleryBtn();
+    initComments()
+    // const comments = document.querySelector("#comments");
+    // storeImageData(comments);
+    // currentPage = getCurrentPage();
+    // console.log('currentPage: ', currentPage)
 
-  //   initImageContainer();
+    // //  创建传送门
+    // initGalleryBtn();
 
-  //   storeImageData(wrapper);
-  // }
-  console.log('bindUserStyle done!')
+    // initImageContainer();
+
+  }
+
   setTimeout(() => {
     helpWizard();
-    
+
 
     // gif-click-load
     // nsfw-click-load
     // bad-click-load
-    // console.log('nsfw :', getCookie('nsfw-click-load'));
-    // console.log('bad :', getCookie('bad-click-load'));
   }, 1000);
 });

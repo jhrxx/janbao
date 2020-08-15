@@ -39,21 +39,27 @@ html.dark body #wrapper #body a:hover {
   color: #c00 !important;
 }
 
-html.dark body .viewer-container .viewer-tocao > a, html.dark body .viewer-container .viewer-hint > a, html.dark body .viewer-container .viewer-title {
+html .viewer-container .viewer-tucao > a, html .viewer-container .viewer-hint > a, html .viewer-container .viewer-ooxx a, html .viewer-container .viewer-title {
   line-height: 1.5;
   padding: 0.5em 1.2em;
   border-radius: 0.2em;
   font-size: 12px;
 }
 
-html.dark body .viewer-container .viewer-tocao > a, html.dark body .viewer-container .viewer-hint > a {
+html .viewer-container .viewer-tucao > a, html .viewer-container .viewer-hint > a, html .viewer-container .viewer-ooxx a {
   color: #000;
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-html.dark body .viewer-container .viewer-tocao > a:hover, html.dark body .viewer-container .viewer-hint > a:hover {
+html .viewer-container .viewer-tucao > a:hover, html .viewer-container .viewer-hint > a:hover, html .viewer-container .viewer-ooxx a:hover {
   background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+}
+
+html .viewer-container .viewer-tucao > a.disabled, html .viewer-container .viewer-hint > a.disabled, html .viewer-container .viewer-ooxx a.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 #gallery_btn {
@@ -64,6 +70,107 @@ html.dark body .viewer-container .viewer-tocao > a:hover, html.dark body .viewer
 
 html .nav-link:hover {
   cursor: pointer;
+}
+
+html .viewer-container {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+html .viewer-container .viewer-title {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+html .viewer-container .viewer-tucao {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+}
+
+html .viewer-container .viewer-tucao > a {
+  z-index: 99;
+  position: absolute;
+  right: 20px;
+  bottom: 60px;
+}
+
+html .viewer-container .viewer-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+}
+
+html .viewer-container .viewer-hint > a {
+  z-index: 100;
+  position: absolute;
+  left: 20px;
+  bottom: 60px;
+}
+
+html .viewer-container .viewer-hint > a:focus + ul {
+  display: block;
+}
+
+html .viewer-container .viewer-hint > ul {
+  display: none;
+  padding: 20px 40px;
+  text-align: left;
+  font-size: 14px;
+  border-radius: 10px;
+  width: 250px;
+  bottom: 130px;
+  left: 20px;
+  position: absolute;
+  color: #333;
+  line-height: 2.5;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+html .viewer-container .viewer-hint > ul li {
+  list-style: none;
+}
+
+html .viewer-container .viewer-hint > ul li span {
+  background: #333;
+  text-align: center;
+  color: #eee;
+  border-radius: .3em;
+  margin: .1em;
+  padding: .1em .5em;
+  min-width: 2.3em;
+  height: 100%;
+  border: 1px solid #444;
+  border-bottom-color: #444444;
+  -webkit-box-shadow: 0 0.2em 0 0.05em #222;
+          box-shadow: 0 0.2em 0 0.05em #222;
+  border-bottom-color: #555;
+}
+
+html .viewer-container .viewer-ooxx {
+  position: absolute;
+  width: 500px;
+  bottom: 60px;
+  left: 50%;
+  margin-left: -250px;
+}
+
+html .viewer-container .viewer-ooxx a {
+  float: right;
+}
+
+html .viewer-container .viewer-ooxx a:first-child {
+  float: left;
+}
+
+html .viewer-container i {
+  font-style: normal;
+  color: #d14748;
+  font-weight: bolder;
+  font-size: 14px;
+  text-stroke: .05em #000;
+  -webkit-text-stroke: .05em #000;
 }
 
 html.dark ::-moz-selection {
@@ -218,83 +325,12 @@ html.dark body #wrapper #footer {
   border-color: #343434;
 }
 
-html.dark body .viewer-container {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-html.dark body .viewer-container .viewer-title {
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-html.dark body .viewer-container .viewer-tocao {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 50%;
-}
-
-html.dark body .viewer-container .viewer-tocao > a {
-  z-index: 99;
-  position: absolute;
-  right: 20px;
-  bottom: 92px;
-}
-
-html.dark body .viewer-container .viewer-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 50%;
-}
-
-html.dark body .viewer-container .viewer-hint > a {
-  z-index: 100;
-  position: absolute;
-  left: 20px;
-  bottom: 92px;
-}
-
-html.dark body .viewer-container .viewer-hint > a:focus + ul {
-  display: block;
-}
-
-html.dark body .viewer-container .viewer-hint > ul {
-  display: none;
-  padding: 20px 40px;
-  text-align: left;
-  font-size: 14px;
-  border-radius: 10px;
-  width: 250px;
-  bottom: 130px;
-  left: 20px;
-  position: absolute;
-  color: #333;
-  line-height: 2.5;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-html.dark body .viewer-container .viewer-hint > ul li {
-  list-style: none;
-}
-
-html.dark body .viewer-container .viewer-hint > ul li span {
-  background: #333;
-  text-align: center;
-  color: #eee;
-  border-radius: .3em;
-  margin: .1em;
-  padding: .1em .5em;
-  min-width: 2.3em;
-  height: 100%;
-  border: 1px solid #444;
-  border-bottom-color: #444444;
-  -webkit-box-shadow: 0 0.2em 0 0.05em #222;
-          box-shadow: 0 0.2em 0 0.05em #222;
-  border-bottom-color: #555;
-}
-
 #imagesTmpl {
   display: none !important;
+}
+
+.viewer-open #wrapper {
+  -webkit-filter: blur(2px);
+          filter: blur(2px);
 }
 /*# sourceMappingURL=jandan-dark-theme.css.map */

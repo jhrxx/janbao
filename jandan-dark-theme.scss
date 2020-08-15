@@ -63,6 +63,11 @@ $brage: #ae1d18;
     background-color: rgba(#fff, .5);
     cursor: pointer;
   }
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: rgba(#fff, .1);
+  }
 }
 
 #gallery_btn {
@@ -76,6 +81,98 @@ html {
   .nav-link {
     &:hover {
       cursor: pointer;
+    }
+  }
+  .viewer-container {
+    background-color: rgba(#000, .4);
+    .viewer-title {
+      @extend %title-text;
+      color: #fff;
+      background-color: rgba(#000, .8);
+    }
+    .viewer-tucao {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 50%;
+
+      & > a {
+        @extend %gallery-btn;
+        z-index: 99;
+        position: absolute;
+        right: 20px;
+        bottom: 60px;
+      }
+    }
+    .viewer-hint {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 50%;
+
+      & > a {
+        @extend %gallery-btn;
+        z-index: 100;
+        position: absolute;
+        left: 20px;
+        bottom: 60px;
+        &:focus + ul {
+          display: block;
+        }
+      }
+      & > ul {
+        display: none;
+        padding: 20px 40px;
+        text-align: left;
+        font-size: 14px;
+        border-radius: 10px;
+        width: 250px;
+        bottom: 130px;
+        left: 20px;
+        position: absolute;
+        color: #333;
+        line-height: 2.5;
+        background-color: rgba(#fff, .8);
+        li {
+          list-style: none;
+          span {
+            background: #333;
+            text-align: center;
+            color: #eee;
+            border-radius: .3em;
+            margin: .1em;
+            padding: .1em .5em;
+            min-width: 2.3em;
+            height: 100%;
+            border: 1px solid #444;
+            border-bottom-color: rgb(68, 68, 68);
+            box-shadow: 0 0.2em 0 0.05em #222;
+            border-bottom-color: #555;
+          }
+        }
+      }
+    }
+    .viewer-ooxx {
+      position: absolute;
+      width: 500px;
+      bottom: 60px;
+      left: 50%;
+      margin-left: -250px;
+      a {
+        @extend %gallery-btn;
+        float: right;
+        &:first-child{
+          float: left;
+        }
+      }
+    }
+    i {
+      font-style: normal;
+      color: $link;
+      font-weight: bolder;
+      font-size: 14px;
+      text-stroke: .05em #000;
+      -webkit-text-stroke: .05em #000;
     }
   }
 }
@@ -226,74 +323,8 @@ html.dark {
       }
     }
     .viewer-container {
-      background-color: rgba(#000, .4);
-      .viewer-title {
-        @extend %title-text;
-        color: #fff;
-        background-color: rgba(#000, .8);
-      }
-      .viewer-tocao {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 50%;
-
-        & > a {
-          @extend %gallery-btn;
-          z-index: 99;
-          position: absolute;
-          right: 20px;
-          bottom: 92px;
-        }
-      }
-      .viewer-hint {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 50%;
-
-        & > a {
-          @extend %gallery-btn;
-          z-index: 100;
-          position: absolute;
-          left: 20px;
-          bottom: 92px;
-          &:focus + ul {
-            display: block;
-          }
-        }
-        & > ul {
-          display: none;
-          padding: 20px 40px;
-          text-align: left;
-          font-size: 14px;
-          border-radius: 10px;
-          width: 250px;
-          bottom: 130px;
-          left: 20px;
-          position: absolute;
-          color: #333;
-          line-height: 2.5;
-          background-color: rgba(#fff, .8);
-          li {
-            list-style: none;
-            span {
-              background: #333;
-              text-align: center;
-              color: #eee;
-              border-radius: .3em;
-              margin: .1em;
-              padding: .1em .5em;
-              min-width: 2.3em;
-              height: 100%;
-              border: 1px solid #444;
-              border-bottom-color: rgb(68, 68, 68);
-              box-shadow: 0 0.2em 0 0.05em #222;
-              border-bottom-color: #555;
-            }
-          }
-        }
-      }
+      // background-color: rgba(#000, .4);
+      
     }
   }
   // ul {
@@ -307,4 +338,8 @@ html.dark {
   
 #imagesTmpl {
   display: none !important;
+}
+
+.viewer-open #wrapper {
+  filter: blur(2px);
 }
