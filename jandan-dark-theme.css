@@ -24,14 +24,14 @@ html.dark body #wrapper #body #content #commentform textarea {
 }
 
 html.dark body #wrapper #body #content .cp-pagenavi > a, html.dark body #wrapper #body #content .tucao-form input[type="submit"],
-html.dark body #wrapper #body #content #commentform input[type="submit"], html.dark body #wrapper #body #sidebar form button, html.dark #gallery_btn {
+html.dark body #wrapper #body #content #commentform input[type="submit"], html.dark body #wrapper #body #sidebar form button, html.dark #gallery_btn, html.dark #tucao-list button {
   color: #666;
   border: 0;
   background-color: #262626;
 }
 
 html.dark body #wrapper #body #content .cp-pagenavi > a:hover, html.dark body #wrapper #body #content .tucao-form input:hover[type="submit"],
-html.dark body #wrapper #body #content #commentform input:hover[type="submit"], html.dark body #wrapper #body #sidebar form button:hover, html.dark #gallery_btn:hover {
+html.dark body #wrapper #body #content #commentform input:hover[type="submit"], html.dark body #wrapper #body #sidebar form button:hover, html.dark #gallery_btn:hover, html.dark #tucao-list button:hover {
   background-color: #353535;
 }
 
@@ -81,6 +81,22 @@ html .viewer-container .viewer-title {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+html .viewer-container .viewer-comment {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+html .viewer-container .viewer-comment p {
+  display: inline-block;
+  line-height: 1.2;
+  padding: 8px 15px;
+  font-size: 13px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 html .viewer-container .viewer-tucao {
   position: absolute;
   bottom: 0;
@@ -92,7 +108,7 @@ html .viewer-container .viewer-tucao > a {
   z-index: 99;
   position: absolute;
   right: 20px;
-  bottom: 60px;
+  bottom: 90px;
 }
 
 html .viewer-container .viewer-hint {
@@ -106,7 +122,7 @@ html .viewer-container .viewer-hint > a {
   z-index: 100;
   position: absolute;
   left: 20px;
-  bottom: 60px;
+  bottom: 90px;
 }
 
 html .viewer-container .viewer-hint > a:focus + ul {
@@ -136,9 +152,9 @@ html .viewer-container .viewer-hint > ul li span {
   background: #333;
   text-align: center;
   color: #eee;
-  border-radius: .3em;
-  margin: .1em;
-  padding: .1em .5em;
+  border-radius: 0.3em;
+  margin: 0.1em;
+  padding: 0.1em 0.5em;
   min-width: 2.3em;
   height: 100%;
   border: 1px solid #444;
@@ -151,7 +167,7 @@ html .viewer-container .viewer-hint > ul li span {
 html .viewer-container .viewer-ooxx {
   position: absolute;
   width: 500px;
-  bottom: 60px;
+  bottom: 90px;
   left: 50%;
   margin-left: -250px;
 }
@@ -169,8 +185,8 @@ html .viewer-container i {
   color: #d14748;
   font-weight: bolder;
   font-size: 14px;
-  text-stroke: .05em #000;
-  -webkit-text-stroke: .05em #000;
+  text-stroke: 0.05em #000;
+  -webkit-text-stroke: 0.05em #000;
 }
 
 html.dark ::-moz-selection {
@@ -325,7 +341,28 @@ html.dark body #wrapper #footer {
   border-color: #343434;
 }
 
-#imagesTmpl {
+html.dark #box ul {
+  background-color: #1a1a1a;
+}
+
+html.dark #content .post blockquote {
+  color: #e2e2e2;
+  background-color: #434343;
+}
+
+html.dark #tucao-list .jandan-tucao {
+  background-color: #1a1a1a;
+}
+
+html.dark #tucao-list .tucao-list {
+  background-color: #262626;
+}
+
+html.dark #tucao-list .tucao-content {
+  color: #e2e2e2;
+}
+
+#images_tmpl {
   display: none !important;
 }
 

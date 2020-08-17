@@ -9,8 +9,8 @@ let store = {
 // let tucao = {};
 let loading = true;
 
-const isNSFW = getCookie('nsfw-click-load') !== 'off'
-const isDislike = getCookie('bad-click-load') !== 'off'
+const isHideNSFW = getCookie('nsfw-click-load') !== 'off'
+const isHideDislike = getCookie('bad-click-load') !== 'off'
 const page = location.pathname.split('/')[1]
 const isPicPage = page === 'pic';
 const isZooPage = page === 'zoo';
@@ -45,11 +45,14 @@ const initImageContainer = () => {
     // 图片浏览钩子
     imageContainer.addEventListener("viewed", () => {
       const { image, index, images } = gallery;
-      const { xx, oo, tucao } = images[index].dataset;
+      const { id, xx, oo, tucao } = images[index].dataset;
+      const comment  = store[page][id].comments
       const tuCaoBtn = document.getElementById('tucao_btn');
       const ooBtn = document.getElementById('oo_btn')
       const xxBtn = document.getElementById('xx_btn')
-      tuCaoBtn.textContent = tucao === '0'?'💦 暂无吐槽':`💦 吐槽 (${tucao})`;
+      const commentEl = document.querySelector(".viewer-comment");
+      commentEl.innerHTML = comment&&`<p>${comment}</p>`;
+      tuCaoBtn.textContent = tucao === '0' ? '💦 暂无吐槽' : `💦 吐槽 (${tucao})`;
       ooBtn.innerHTML = `⭕⭕ [<i>${oo}</i>]`;
       xxBtn.innerHTML = `❌❌ [<i>${xx}</i>]`;
       ooBtn.classList.remove('disabled')
@@ -94,6 +97,7 @@ const initGallery = () => {
       initKeyboardHint();
       initTuCao();
       initOOXX();
+      initComment();
     },
     backdrop: false,
     transition: false,
@@ -176,21 +180,15 @@ const storeImageData = wrapper => {
       const uuid = strong.title.replace("防伪码：", "");
       const sources = item.querySelectorAll(".view_img_link");
       const src = [...sources].map(item => item.href);
-      const comments = [...item.querySelectorAll(".text p")]
-        .map(p => p.textContent.replace(/PLAY|\/n|/gi, ""))
-        .filter(t => !t.includes("[查看原图]"));
+      const comments = item.querySelector(".text p")
+        .textContent.replaceAll(/[play|\[查看原图\]|loding...]/gi,'').trim();
       const oo = getNum(".tucao-like-container");
       const xx = getNum(".tucao-unlike-container");
       const tucao = getNum(".tucao-btn");
-
-      // const text = comments
-      //   .replace(/PLAY/gi, "")
-      //   .split("[查看原图]")
-      //   .join("");
       const dislikeText = "因不受欢迎已被超载鸡自动隐藏";
       const NSFWText = "NSFW";
-      const dislike = comments.includes(dislikeText) && isDislike;
-      const nsfw = comments.includes(NSFWText) && isNSFW;
+      const dislike = comments.indexOf(dislikeText)>=0 && isHideDislike;
+      const nsfw = comments.indexOf(NSFWText)>=0 && isHideNSFW;
       const isBroken = src.indexOf('default_w_large.gif') > 0 // 渣浪破图
       if (!dislike && !nsfw && !isBroken) {
         data[id] = { auther, uuid, time, comments, src, xx, oo, tucao }
@@ -215,7 +213,7 @@ const updateImageContainer = (images) => {
         images[key].xx
         }" data-oo="${images[key].oo}" data-tucao="${
         images[key].tucao
-        }"/></li>`
+        }" /></li>`
     })
   }).join('')}`;
 
@@ -241,7 +239,7 @@ const fetchPrevPage = async () => {
 // 获取吐槽数据
 const fetchTuCaoById = async id => {
   // if (!tucao[id]) {
-  const resp = await fetch(`//jandan.net/tucao/${id}`);
+  const resp = await fetch(`jandan.net/tucao/${id}`);
   const text = await resp.text();
   const data = JSON.parse(text);
   console.log("tucao data :", data);
@@ -263,12 +261,12 @@ const initTuCao = () => {
     append(container, tucaoTmpl);
     document.getElementById("tucao_btn").addEventListener("click", () => {
       const { images, index } = gallery;
-      const {id,tucao} = images[index].dataset;
+      const { id, tucao } = images[index].dataset;
       // if(tucao === '0') {
       window.open(`http://jandan.net/t/${id}`)
-        // http://jandan.net/t/4665472
+      // http://jandan.net/t/4665472
       // } else {
-        // fetchTuCaoById(id);
+      // fetchTuCaoById(id);
       // }
     });
   }
@@ -307,30 +305,34 @@ const initOOXX = () => {
 
       const { id } = images[index].dataset;
       const type = e.id === 'xx_btn' ? 'neg' : 'pos';
-      const resp = await fetch('//jandan.net/api/comment/vote', {
-        method: 'POST',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: `comment_id=${id}&like_type=${type}&data_type=comment`
-      })
-      const { error } = await resp.json()
-      if (error) {
-        if (e.id === 'xx_btn') {
-          xxBtn.innerHTML = `❌❌ [<i>${xx}</i>]`;
+      try {
+        const resp = await fetch(`${window.location.origin}/api/comment/vote`, {
+          method: 'POST',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+          body: `comment_id=${id}&like_type=${type}&data_type=comment`
+        })
+        const { error } = await resp.json()
+        if (error) {
+          if (e.id === 'xx_btn') {
+            xxBtn.innerHTML = `❌❌ [<i>${xx}</i>]`;
+          } else {
+            ooBtn.innerHTML = `⭕⭕ [<i>${oo}</i>]`;
+          }
         } else {
-          ooBtn.innerHTML = `⭕⭕ [<i>${oo}</i>]`;
+          if (e.id === 'xx_btn') {
+            images[index].setAttribute("data-xx", plus1(xx))
+          } else {
+            images[index].setAttribute("data-oo", plus1(oo))
+          }
         }
-      } else {
-        if (e.id === 'xx_btn') {
-          images[index].setAttribute("data-xx", plus1(xx))
-        } else {
-          images[index].setAttribute("data-oo", plus1(oo))
-        }
+      } catch (error) {
+        console.log('error', error)
       }
     }
 
@@ -338,6 +340,16 @@ const initOOXX = () => {
     xxBtn.addEventListener("click", voteFn);
   }
 };
+
+// 文字
+const initComment = () => {
+  const container = document.querySelector(".viewer-container");
+  const commentEl = document.querySelector(".viewer-comment");
+
+  if (!commentEl) {
+    append(container, '<div class="viewer-comment"></div>');
+  }
+}
 
 // 自定义theme
 const bindUserStyle = () => {
@@ -431,24 +443,9 @@ ready(() => {
     initImageContainer()
 
     initComments()
-    // const comments = document.querySelector("#comments");
-    // storeImageData(comments);
-    // currentPage = getCurrentPage();
-    // console.log('currentPage: ', currentPage)
-
-    // //  创建传送门
-    // initGalleryBtn();
-
-    // initImageContainer();
-
   }
 
   setTimeout(() => {
     helpWizard();
-
-
-    // gif-click-load
-    // nsfw-click-load
-    // bad-click-load
   }, 1000);
 });
