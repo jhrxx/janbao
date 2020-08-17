@@ -181,7 +181,7 @@ const storeImageData = wrapper => {
       const sources = item.querySelectorAll(".view_img_link");
       const src = [...sources].map(item => item.href);
       const comments = item.querySelector(".text p")
-        .textContent.replaceAll(/[play|\[查看原图\]|loding...]/gi,'').trim();
+        .textContent.replace(/[play|\[查看原图\]|loding...]/gi,'').trim();
       const oo = getNum(".tucao-like-container");
       const xx = getNum(".tucao-unlike-container");
       const tucao = getNum(".tucao-btn");
