@@ -6,7 +6,6 @@ let store = {
   pic: {},
   zoo: {}
 };
-// let tucao = {};
 let loading = true;
 
 const isHideNSFW = getCookie('nsfw-click-load') !== 'off'
@@ -168,7 +167,7 @@ const storeImageData = wrapper => {
   const data = {}
   wrapper.querySelectorAll("ol.commentlist>li").forEach(item => {
     const getNum = className => {
-      return item.querySelector(className).textContent.match(/\d/)[0];
+      return item.querySelector(className).textContent.match(/\d+/g)[0];
     };
     if (item.id) {
       const strong = item.querySelector(".author strong");
