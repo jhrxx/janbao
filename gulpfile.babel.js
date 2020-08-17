@@ -4,8 +4,7 @@ const del = require('del');
 const minify = require('gulp-minify');
 const cleanCSS = require('gulp-clean-css');
 const imagemin = require('gulp-imagemin');
-const Archiver = require('gulp-archiver2');
-
+const zip = require('gulp-zip');
 const dist = 'dist'
 
 gulp.task('clean', () => {
@@ -53,8 +52,8 @@ gulp.task('cppkg2', () => {
 });
 
 gulp.task('zip', () => {
-    return gulp.src(dist + '/**')
-        .pipe(Archiver.create('archive.zip'))
+    return gulp.src(dist + '/**/*')
+        .pipe(zip('archive.zip'))
         .pipe(gulp.dest(dist))
 });
 
@@ -72,7 +71,7 @@ gulp.task('xpi', gulp.series('zip', 'cp', done => {
     done()
 }));
 
-gulp.task('default', gulp.series('clean', 'img', 'css', 'js', 'json', 'cppkg', 'cppkg2', 'xpi', done => {
+gulp.task('default', gulp.series('clean', 'img', 'css', 'js', 'json', 'cppkg', 'cppkg2', done => {
     console.log('done!')
     done()
 }));
