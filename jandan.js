@@ -186,7 +186,8 @@ const storeImageData = wrapper => {
       const tucao = getNum(".tucao-btn");
       const dislikeText = "因不受欢迎已被超载鸡自动隐藏";
       const NSFWText = "NSFW";
-      const dislike = comments.indexOf(dislikeText)>=0 && isHideDislike;
+      // 翻页无法获取不喜欢数据
+      const dislike = (comments.indexOf(dislikeText)>=0 || +xx>+oo ) && isHideDislike;
       const nsfw = comments.indexOf(NSFWText)>=0 && isHideNSFW;
       const isBroken = src.indexOf('default_w_large.gif') > 0 // 渣浪破图
       if (!dislike && !nsfw && !isBroken) {
