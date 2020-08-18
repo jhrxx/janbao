@@ -250,7 +250,6 @@ html.dark body .Sprite.Sprite16.SpOptions {
   top: 2px;
   left: -5px;
   display: inline-block;
-  background-image: url("/images/frame/separator.png");
 }
 
 .jdedit-toolbar .jdedit-button-wrap .jdedit-icon {
@@ -261,48 +260,91 @@ html.dark body .Sprite.Sprite16.SpOptions {
   color: transparent;
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-bold {
-  background-image: url("/images/frame/bold.png");
+.jdedit-toolbar .jdedit-button-wrap::before {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/separator.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-italic {
-  background-image: url("/images/frame/italic.png");
+.jdedit-icon-bold {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/bold.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-strikethrough {
-  background-image: url("/images/frame/strikethrough.png");
+.jdedit-icon-italic {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/italic.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-blockquote {
-  background-image: url("/images/frame/blockquote.png");
+.jdedit-icon-strikethrough {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/strikethrough.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-insertorderedlist {
-  background-image: url("/images/frame/ordered-list.png");
+.jdedit-icon-blockquote {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/blockquote.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-insertunorderedlist {
-  background-image: url("/images/frame/unordered-list.png");
+.jdedit-icon-insertorderedlist {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/ordered-list.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-listitem {
-  background-image: url("/images/frame/listitem.png");
+.jdedit-icon-insertunorderedlist {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/unordered-list.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-horizontal {
-  background-image: url("/images/frame/horizontal.png");
+.jdedit-icon-listitem {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/listitem.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-selectall {
-  background-image: url("/images/frame/selectall.png");
+.jdedit-icon-horizontal {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/horizontal.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-cleardoc {
-  background-image: url("/images/frame/cleardoc.png");
+.jdedit-icon-selectall {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/selectall.png");
 }
 
-.jdedit-toolbar .jdedit-button-wrap .jdedit-icon-link {
-  background-image: url("/images/frame/link.png");
+.jdedit-icon-cleardoc {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/cleardoc.png");
+}
+
+.jdedit-icon-link {
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/frame/link.png");
+}
+
+@-moz-document url-prefix() {
+  .jdedit-toolbar .jdedit-button-wrap::before {
+    background-image: url("/images/frame/separator.png");
+  }
+  .jdedit-icon-bold {
+    background-image: url("/images/frame/bold.png");
+  }
+  .jdedit-icon-italic {
+    background-image: url("/images/frame/italic.png");
+  }
+  .jdedit-icon-strikethrough {
+    background-image: url("/images/frame/strikethrough.png");
+  }
+  .jdedit-icon-blockquote {
+    background-image: url("/images/frame/blockquote.png");
+  }
+  .jdedit-icon-insertorderedlist {
+    background-image: url("/images/frame/ordered-list.png");
+  }
+  .jdedit-icon-insertunorderedlist {
+    background-image: url("/images/frame/unordered-list.png");
+  }
+  .jdedit-icon-listitem {
+    background-image: url("/images/frame/listitem.png");
+  }
+  .jdedit-icon-horizontal {
+    background-image: url("/images/frame/horizontal.png");
+  }
+  .jdedit-icon-selectall {
+    background-image: url("/images/frame/selectall.png");
+  }
+  .jdedit-icon-cleardoc {
+    background-image: url("/images/frame/cleardoc.png");
+  }
+  .jdedit-icon-link {
+    background-image: url("/images/frame/link.png");
+  }
 }
 
 #jdedit_emotionbar {
