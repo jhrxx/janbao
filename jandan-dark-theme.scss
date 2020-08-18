@@ -11,12 +11,24 @@ $a: #666;
 $l: #e2e2e2;
 $w: #fff;
 
-$link-hover: #c00;
-// $dark-yellow: #ac885b;
-// $yellow: #cda869;
-// $light-yellow: #f9ee98;
+$dark-yellow: #ac885b;
+$yellow: #cda869;
+$light-yellow: #f9ee98;
 $link: #d14748;
-$brage: #ae1d18;
+// $brage: #ae1d18;
+$brage: #7b0001;
+$monza: #c90110;
+$scorpion: #5e5e5e;
+$silver-chalice: #a1a1a1;
+$cod-gray: #1a1a1a;
+$corn-blue: #6793fc;
+$san-marino: #43659c;
+$saffron: #f3b035;
+$eerie-black: #1a1a1a;
+$cultured: #f2f1f4;
+$davys-grey: #5e5e5e;
+$quick-silver: #a1a1a1;
+$venetian-red: #c90110;
 
 %bg {
   color: $text;
@@ -26,7 +38,7 @@ $brage: #ae1d18;
 %input {
   color: $text;
   border: 1px solid $text;
-  background-color: $bg !important;
+  background-color: $bg;
 }
 %light-btn {
   color: $w;
@@ -45,10 +57,8 @@ $brage: #ae1d18;
   }
 }
 %link {
-  a {
-    &:hover {
-      color: $link-hover !important;
-    }
+  a:hover {
+    color: $link;
   }
 }
 %title-text {
@@ -199,174 +209,241 @@ html.dark {
   }
   @extend %bg;
   body {
-    @extend %bg;
+    background-color: transparent;
+    // @extend %bg;
     #header .logo h1 a {
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAADGElEQVR4nO2aPW4bMRCFnwN3hmXAlYpYXbLIBXyC+ALpc4qUqVPmFOlzAecEuoCxdic1rgJYgWql0C5s0xySQw7JFTUfYLhYLknt8M0PSUBRFEVRlCa4XD+sL9cP69rzUPa8qz0BJS8n0h2a6v179eFKegwlnFwKfj/8KZVJV/D5bsdq/+9E3GsoNBqDG4evJq5ifaiis6IKbpxw9SQrdzv8P7M/ViVnobCCCeMq2fCrRjrm+lAli1IpBm/9TRQRKhlYXXUpNItunFPyyfXTEwDgzt3B7e8/AICbL5+NJ6+zZrodMe7y4sLdkKbv+z60bdd1XWwf1Luxc8kBbeA9s/QhtmC65BmATfq4+BjQ5j6hD9+73LlkwWdgL25FngW2U3KRbGCasolUrCtMcaEv3/W4a47aR2yqd/Vj9RJva87Uuveb8b1+esOUm8C6ePjYtVzhfUg8DsXxW6zjuBZpRgUrgN9DSCwMVx/PBi69YxXKOK8wJce4whJQnoU9X9eCsRm6GQVLusgJw87qT8WVmxpzKc53uxb3qXPXyc0oOPVDjR6A6if0ORNuUsh26RYDe85tp01sFm1+OLMf7vNscBcSoeCDNO4hwq5ruZ7KYmA1bkmYdS3bQzUTgwkohZTeEKlWvtEG/jTs998JnDdwEB7XVEjp0x3h8k0iyWqL2sd10vCTLLO23J/HFpathb2SNynnwqh4TDcivcAEkiwAz+extQwtcR48JaQWmkCSNSpmvFlRizTljkwlyapG8zG4dpLlgVsHs+vm5g08MYO+gXu+K30evEH5OCwZf4/GFVPQBn4di2fZ62GZrPng4HoYqSzapISSc2TOtpg1JVVz55JhqzK3kjMr92XMmno8zgE3ycqhZEnlhmzlSbThbhmWuFVphX9DYlDy7Y8lAODm+zXr9f7XIwCg+zoHjjDmhsC9VekitkzaAFguFosFgDnz3cfVarUC5ryVoUQRfcdpjGfcFRX7Xmi/JlIxOPbKTsKYIi66tY2OkKs0MVl06pWdCe1FezBXZKgiY99T0ohVcOyls2qX1Y6V/6YYJrzHZJMSAAAAAElFTkSuQmCC");
     }
     #nav_prev,
     #nav_next {
-      color: $t;
-    }
-
-    #wrapper {
-      background-color: $dark-bg;
-      #body {
-        @extend %link;
-        background: 0;
-        border-color: $border;
-        * {
-          border-color: $border;
-        }
-        #content {
-          border-right: 1px solid $border;
-          .title {
-            background: $dark-bg;
-            a {
-              color: $link-hover;
-              &:link,
-              &:visited {
-                color: $text;
-              }
-            }
-          }
-          .comment-link {
-            color: $a;
-            a {
-              color: $link-hover;
-              &:link,
-              &:visited {
-                color: $text;
-              }
-            }
-          }
-          .post {
-            a {
-              color: $a;
-            }
-          }
-          .cp-pagenavi {
-            & > a {
-              @extend %dark-btn;
-            }
-          }
-          .tucao-form,
-          #commentform {
-            input,
-            textarea {
-              @extend %input;
-            }
-            input[type="submit"] {
-              @extend %dark-btn;
-            }
-          }
-        }
-        #sidebar {
-          border-color: $border;
-          form {
-            background-color: $dark-bg;
-            input {
-              width: 220px;
-              background-color: $dark-bg;
-            }
-            button {
-              background-color: $bg;
-              text-indent: 0;
-              @extend %dark-btn;
-            }
-          }
-          .hot-list {
-            margin-top: 20px;
-            .hot-tabs {
-              & > li {
-                color: $t;
-                border-bottom: 0;
-                border-color: $border;
-                &:first-child {
-                  margin-left: 40px;
-                }
-                &.current {
-                  background: 0;
-                  color: $text;
-                  border-color: lighten($border, 10);
-                }
-              }
-            }
-            .host-list-split {
-              display: none;
-            }
-            ul {
-              border: 0;
-              margin: 0;
-              padding: 0;
-              .acv_author {
-                margin: 0;
-                background-color: $bg;
-                a {
-                  color: $text;
-                  font-weight: normal;
-                }
-              }
-              .acv_comment {
-                width: auto;
-                padding: 15px 20px;
-                background-color: $dark-bg;
-              }
-            }
-          }
-          li {
-            a {
-              span {
-                color: $a;
-              }
-              color: $a;
-              &:hover {
-                span {
-                  color: $link-hover;
-                }
-              }
-            }
-          }
-          & > * {
-            margin-left: 0;
-          }
-          * {
-            border-color: $border;
-          }
+      a {
+        color: $davys-grey;
+        &:hover {
+          color: $quick-silver;
         }
       }
-      #footer {
+    }
+  }
+  #wrapper {
+    background: 0;
+  }
+  #body {
+    background: $dark-bg;
+    border-color: $border;
+    * {
+      border-color: $border;
+    }
+  }
+  #content {
+    border-right: 1px solid $border;
+    .title {
+      background: $dark-bg;
+      @extend %link;
+    }
+    .comment-link {
+      color: $scorpion;
+    }
+    .comment-big a {
+      color: $quick-silver;
+    }
+    h3,
+    .comment-big,
+    .time_s {
+      @extend %link;
+    }
+    .post {
+      color: $quick-silver;
+      h1 {
         border-color: $border;
       }
+      h1 a {
+        &,
+        &:visited {
+          color: $monza;
+        }
+      }
+      h2 a {
+        font-weight: normal;
+        color: $monza;
+        &:hover {
+          color: $link;
+        }
+        &:visited {
+          color: $brage;
+        }
+      }
     }
-  }
-  #box ul {
-    background-color: $dark-bg;
-  }
-
-  #gallery_btn {
-    @extend %dark-btn;
-  }
-
-  #content .post blockquote {
-    color: $l;
-    background-color: $bg;
-  }
-
-  #tucao-list {
-    .jandan-tucao {
-      background-color: $dark-bg;
-    }
-    .tucao-list {
-      background-color: $gray-bg;
-    }
-    .tucao-content {
-      color: $l;
-    }
-
-    button {
+    .wp-pagenavi a {
       @extend %dark-btn;
     }
+    blockquote {
+      color: $quick-silver;
+      background-color: $gray-bg;
+    }
+    // .cp-pagenavi {
+    //   & > a {
+    //     @extend %dark-btn;
+    //   }
+    // }
+    .tucao-form,
+    #commentform {
+      label {
+        color: $quick-silver;
+      }
+      input,
+      textarea {
+        @extend %input;
+      }
+      input[type="submit"] {
+        @extend %dark-btn;
+      }
+    }
   }
+  #sidebar {
+    border-color: $border;
+    color: $text;
+    #cse-search-box {
+      // border-left: 1px solid $border;
+      background-color: $dark-bg;
+      input {
+        width: 220px;
+        background-color: $dark-bg;
+        &:focus {
+          border-color: $border;
+          outline: 0;
+        }
+      }
+      button {
+        background-color: $bg;
+        text-indent: 0;
+        @extend %dark-btn;
+      }
+    }
+    ul > a {
+      color: $monza;
+      &:hover {
+        color: $link;
+      }
+    }
+    .host-list-split {
+      background-color: $border;
+    }
+    .hot-tabs > li {
+      color: $scorpion;
+      border-bottom: 0;
+      border-color: $border;
+      &.current {
+        background-color: $gray-bg;
+        color: $quick-silver;
+        border-color: lighten($border, 10);
+      }
+    }
+    .hot-list-item {
+      .acv_author {
+        color: $quick-silver;
+        background-color: $gray-bg;
+        @extend %link;
+      }
+      .acv_comment {
+        background-color: transparent;
+        @extend %link;
+      }
+      .comment-like {
+        color: $monza;
+        &:hover {
+          color: $link;
+        }
+      }
+      .comment-unlike {
+        color: $san-marino;
+        &:hover {
+          color: $corn-blue;
+        }
+      }
+    }
+
+    #float ul {
+      background-color: $dark-bg;
+    }
+    //   .hot-list {
+    //     margin-top: 20px;
+    //     .hot-tabs {
+    //       & > li {
+
+    //       }
+    //     }
+    //     .host-list-split {
+    //       display: none;
+    //     }
+    //     ul {
+    //       border: 0;
+    //       margin: 0;
+    //       padding: 0;
+    //       .acv_author {
+    //         margin: 0;
+    //         background-color: $bg;
+    //         a {
+    //           color: $text;
+    //           font-weight: normal;
+    //         }
+    //       }
+    //       .acv_comment {
+    //         width: auto;
+    //         padding: 15px 20px;
+    //         background-color: $dark-bg;
+    //       }
+    //     }
+    //   }
+    // li {
+    //   a {
+    //     span {
+    //       color: $a;
+    //     }
+    //     color: $a;
+    //     &:hover {
+    //       span {
+    //         color: $monza;
+    //       }
+    //     }
+    //   }
+    // }
+    // & > * {
+    //   margin-left: 0;
+    // }
+  }
+  #footer {
+    @extend %link;
+    background-color: $dark-bg;
+    border-color: $border;
+  }
+  // #box ul {
+  //   background-color: $dark-bg;
+  // }
+
+  // #gallery_btn {
+  //   @extend %dark-btn;
+  // }
+
+  // #content .post blockquote {
+  //   color: $l;
+  //   background-color: $bg;
+  // }
+
+  // #tucao-list {
+  //   .jandan-tucao {
+  //     background-color: $dark-bg;
+  //   }
+  //   .tucao-list {
+  //     background-color: $gray-bg;
+  //   }
+  //   .tucao-content {
+  //     color: $l;
+  //   }
+
+  //   button {
+  //     @extend %dark-btn;
+  //   }
+  // }
 }
 
 #images_tmpl {

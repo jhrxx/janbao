@@ -1,16 +1,16 @@
-html.dark, html.dark body {
+html.dark {
   color: #9c9c9c;
   background-color: #434343;
   background-image: url("data:image/png;base64,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");
 }
 
-html.dark body #wrapper #body #content .tucao-form input,
-html.dark body #wrapper #body #content .tucao-form textarea,
-html.dark body #wrapper #body #content #commentform input,
-html.dark body #wrapper #body #content #commentform textarea {
+html.dark #content .tucao-form input,
+html.dark #content .tucao-form textarea,
+html.dark #content #commentform input,
+html.dark #content #commentform textarea {
   color: #9c9c9c;
   border: 1px solid #9c9c9c;
-  background-color: #434343 !important;
+  background-color: #434343;
 }
 
 #gallery_btn {
@@ -23,20 +23,20 @@ html.dark body #wrapper #body #content #commentform textarea {
   background-color: #444;
 }
 
-html.dark body #wrapper #body #content .cp-pagenavi > a, html.dark body #wrapper #body #content .tucao-form input[type="submit"],
-html.dark body #wrapper #body #content #commentform input[type="submit"], html.dark body #wrapper #body #sidebar form button, html.dark #gallery_btn, html.dark #tucao-list button {
+html.dark #content .wp-pagenavi a, html.dark #content .tucao-form input[type="submit"],
+html.dark #content #commentform input[type="submit"], html.dark #sidebar #cse-search-box button {
   color: #666;
   border: 0;
   background-color: #262626;
 }
 
-html.dark body #wrapper #body #content .cp-pagenavi > a:hover, html.dark body #wrapper #body #content .tucao-form input:hover[type="submit"],
-html.dark body #wrapper #body #content #commentform input:hover[type="submit"], html.dark body #wrapper #body #sidebar form button:hover, html.dark #gallery_btn:hover, html.dark #tucao-list button:hover {
+html.dark #content .wp-pagenavi a:hover, html.dark #content .tucao-form input:hover[type="submit"],
+html.dark #content #commentform input:hover[type="submit"], html.dark #sidebar #cse-search-box button:hover {
   background-color: #353535;
 }
 
-html.dark body #wrapper #body a:hover {
-  color: #c00 !important;
+html.dark #content .title a:hover, html.dark #content h3 a:hover, html.dark #content .comment-big a:hover, html.dark #content .time_s a:hover, html.dark #sidebar .hot-list-item .acv_author a:hover, html.dark #sidebar .hot-list-item .acv_comment a:hover, html.dark #footer a:hover {
+  color: #d14748;
 }
 
 html .viewer-container .viewer-tucao > a, html .viewer-container .viewer-hint > a, html .viewer-container .viewer-ooxx a, html .viewer-container .viewer-title {
@@ -199,167 +199,168 @@ html.dark ::selection {
   background: #343434;
 }
 
+html.dark body {
+  background-color: transparent;
+}
+
 html.dark body #header .logo h1 a {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAADGElEQVR4nO2aPW4bMRCFnwN3hmXAlYpYXbLIBXyC+ALpc4qUqVPmFOlzAecEuoCxdic1rgJYgWql0C5s0xySQw7JFTUfYLhYLknt8M0PSUBRFEVRlCa4XD+sL9cP69rzUPa8qz0BJS8n0h2a6v179eFKegwlnFwKfj/8KZVJV/D5bsdq/+9E3GsoNBqDG4evJq5ifaiis6IKbpxw9SQrdzv8P7M/ViVnobCCCeMq2fCrRjrm+lAli1IpBm/9TRQRKhlYXXUpNItunFPyyfXTEwDgzt3B7e8/AICbL5+NJ6+zZrodMe7y4sLdkKbv+z60bdd1XWwf1Luxc8kBbeA9s/QhtmC65BmATfq4+BjQ5j6hD9+73LlkwWdgL25FngW2U3KRbGCasolUrCtMcaEv3/W4a47aR2yqd/Vj9RJva87Uuveb8b1+esOUm8C6ePjYtVzhfUg8DsXxW6zjuBZpRgUrgN9DSCwMVx/PBi69YxXKOK8wJce4whJQnoU9X9eCsRm6GQVLusgJw87qT8WVmxpzKc53uxb3qXPXyc0oOPVDjR6A6if0ORNuUsh26RYDe85tp01sFm1+OLMf7vNscBcSoeCDNO4hwq5ruZ7KYmA1bkmYdS3bQzUTgwkohZTeEKlWvtEG/jTs998JnDdwEB7XVEjp0x3h8k0iyWqL2sd10vCTLLO23J/HFpathb2SNynnwqh4TDcivcAEkiwAz+extQwtcR48JaQWmkCSNSpmvFlRizTljkwlyapG8zG4dpLlgVsHs+vm5g08MYO+gXu+K30evEH5OCwZf4/GFVPQBn4di2fZ62GZrPng4HoYqSzapISSc2TOtpg1JVVz55JhqzK3kjMr92XMmno8zgE3ycqhZEnlhmzlSbThbhmWuFVphX9DYlDy7Y8lAODm+zXr9f7XIwCg+zoHjjDmhsC9VekitkzaAFguFosFgDnz3cfVarUC5ryVoUQRfcdpjGfcFRX7Xmi/JlIxOPbKTsKYIi66tY2OkKs0MVl06pWdCe1FezBXZKgiY99T0ohVcOyls2qX1Y6V/6YYJrzHZJMSAAAAAElFTkSuQmCC");
 }
 
-html.dark body #nav_prev,
-html.dark body #nav_next {
-  color: #444;
+html.dark body #nav_prev a,
+html.dark body #nav_next a {
+  color: #5e5e5e;
 }
 
-html.dark body #wrapper {
-  background-color: #1a1a1a;
+html.dark body #nav_prev a:hover,
+html.dark body #nav_next a:hover {
+  color: #a1a1a1;
 }
 
-html.dark body #wrapper #body {
+html.dark #wrapper {
   background: 0;
+}
+
+html.dark #body {
+  background: #1a1a1a;
   border-color: #343434;
 }
 
-html.dark body #wrapper #body * {
+html.dark #body * {
   border-color: #343434;
 }
 
-html.dark body #wrapper #body #content {
+html.dark #content {
   border-right: 1px solid #343434;
 }
 
-html.dark body #wrapper #body #content .title {
+html.dark #content .title {
   background: #1a1a1a;
 }
 
-html.dark body #wrapper #body #content .title a {
-  color: #c00;
+html.dark #content .comment-link {
+  color: #5e5e5e;
 }
 
-html.dark body #wrapper #body #content .title a:link, html.dark body #wrapper #body #content .title a:visited {
-  color: #9c9c9c;
+html.dark #content .comment-big a {
+  color: #a1a1a1;
 }
 
-html.dark body #wrapper #body #content .comment-link {
-  color: #666;
+html.dark #content .post {
+  color: #a1a1a1;
 }
 
-html.dark body #wrapper #body #content .comment-link a {
-  color: #c00;
-}
-
-html.dark body #wrapper #body #content .comment-link a:link, html.dark body #wrapper #body #content .comment-link a:visited {
-  color: #9c9c9c;
-}
-
-html.dark body #wrapper #body #content .post a {
-  color: #666;
-}
-
-html.dark body #wrapper #body #sidebar {
+html.dark #content .post h1 {
   border-color: #343434;
 }
 
-html.dark body #wrapper #body #sidebar form {
+html.dark #content .post h1 a, html.dark #content .post h1 a:visited {
+  color: #c90110;
+}
+
+html.dark #content .post h2 a {
+  font-weight: normal;
+  color: #c90110;
+}
+
+html.dark #content .post h2 a:hover {
+  color: #d14748;
+}
+
+html.dark #content .post h2 a:visited {
+  color: #7b0001;
+}
+
+html.dark #content blockquote {
+  color: #a1a1a1;
+  background-color: #262626;
+}
+
+html.dark #content .tucao-form label,
+html.dark #content #commentform label {
+  color: #a1a1a1;
+}
+
+html.dark #sidebar {
+  border-color: #343434;
+  color: #9c9c9c;
+}
+
+html.dark #sidebar #cse-search-box {
   background-color: #1a1a1a;
 }
 
-html.dark body #wrapper #body #sidebar form input {
+html.dark #sidebar #cse-search-box input {
   width: 220px;
   background-color: #1a1a1a;
 }
 
-html.dark body #wrapper #body #sidebar form button {
+html.dark #sidebar #cse-search-box input:focus {
+  border-color: #343434;
+  outline: 0;
+}
+
+html.dark #sidebar #cse-search-box button {
   background-color: #434343;
   text-indent: 0;
 }
 
-html.dark body #wrapper #body #sidebar .hot-list {
-  margin-top: 20px;
+html.dark #sidebar ul > a {
+  color: #c90110;
 }
 
-html.dark body #wrapper #body #sidebar .hot-list .hot-tabs > li {
-  color: #444;
+html.dark #sidebar ul > a:hover {
+  color: #d14748;
+}
+
+html.dark #sidebar .host-list-split {
+  background-color: #343434;
+}
+
+html.dark #sidebar .hot-tabs > li {
+  color: #5e5e5e;
   border-bottom: 0;
   border-color: #343434;
 }
 
-html.dark body #wrapper #body #sidebar .hot-list .hot-tabs > li:first-child {
-  margin-left: 40px;
-}
-
-html.dark body #wrapper #body #sidebar .hot-list .hot-tabs > li.current {
-  background: 0;
-  color: #9c9c9c;
+html.dark #sidebar .hot-tabs > li.current {
+  background-color: #262626;
+  color: #a1a1a1;
   border-color: #4e4e4e;
 }
 
-html.dark body #wrapper #body #sidebar .hot-list .host-list-split {
-  display: none;
-}
-
-html.dark body #wrapper #body #sidebar .hot-list ul {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-html.dark body #wrapper #body #sidebar .hot-list ul .acv_author {
-  margin: 0;
-  background-color: #434343;
-}
-
-html.dark body #wrapper #body #sidebar .hot-list ul .acv_author a {
-  color: #9c9c9c;
-  font-weight: normal;
-}
-
-html.dark body #wrapper #body #sidebar .hot-list ul .acv_comment {
-  width: auto;
-  padding: 15px 20px;
-  background-color: #1a1a1a;
-}
-
-html.dark body #wrapper #body #sidebar li a {
-  color: #666;
-}
-
-html.dark body #wrapper #body #sidebar li a span {
-  color: #666;
-}
-
-html.dark body #wrapper #body #sidebar li a:hover span {
-  color: #c00;
-}
-
-html.dark body #wrapper #body #sidebar > * {
-  margin-left: 0;
-}
-
-html.dark body #wrapper #body #sidebar * {
-  border-color: #343434;
-}
-
-html.dark body #wrapper #footer {
-  border-color: #343434;
-}
-
-html.dark #box ul {
-  background-color: #1a1a1a;
-}
-
-html.dark #content .post blockquote {
-  color: #e2e2e2;
-  background-color: #434343;
-}
-
-html.dark #tucao-list .jandan-tucao {
-  background-color: #1a1a1a;
-}
-
-html.dark #tucao-list .tucao-list {
+html.dark #sidebar .hot-list-item .acv_author {
+  color: #a1a1a1;
   background-color: #262626;
 }
 
-html.dark #tucao-list .tucao-content {
-  color: #e2e2e2;
+html.dark #sidebar .hot-list-item .acv_comment {
+  background-color: transparent;
+}
+
+html.dark #sidebar .hot-list-item .comment-like {
+  color: #c90110;
+}
+
+html.dark #sidebar .hot-list-item .comment-like:hover {
+  color: #d14748;
+}
+
+html.dark #sidebar .hot-list-item .comment-unlike {
+  color: #43659c;
+}
+
+html.dark #sidebar .hot-list-item .comment-unlike:hover {
+  color: #6793fc;
+}
+
+html.dark #sidebar #float ul {
+  background-color: #1a1a1a;
+}
+
+html.dark #footer {
+  background-color: #1a1a1a;
+  border-color: #343434;
 }
 
 #images_tmpl {
