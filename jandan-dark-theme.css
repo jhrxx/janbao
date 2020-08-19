@@ -23,19 +23,19 @@ html.dark #content #commentform textarea {
   background-color: #444;
 }
 
-html.dark #content .wp-pagenavi a, html.dark #content .tucao-form input[type="submit"],
-html.dark #content #commentform input[type="submit"], html.dark #sidebar #cse-search-box button {
+html.dark #wrapper .jandan-tucao button[type=button], html.dark #content .wp-pagenavi a, html.dark #content .cp-pagenavi > a, html.dark #content .tucao-form input[type="submit"],
+html.dark #content #commentform input[type="submit"], html.dark #sidebar #cse-search-box button, html.dark #gallery_btn {
   color: #666;
   border: 0;
   background-color: #262626;
 }
 
-html.dark #content .wp-pagenavi a:hover, html.dark #content .tucao-form input:hover[type="submit"],
-html.dark #content #commentform input:hover[type="submit"], html.dark #sidebar #cse-search-box button:hover {
+html.dark #wrapper .jandan-tucao button:hover[type=button], html.dark #content .wp-pagenavi a:hover, html.dark #content .cp-pagenavi > a:hover, html.dark #content .tucao-form input:hover[type="submit"],
+html.dark #content #commentform input:hover[type="submit"], html.dark #sidebar #cse-search-box button:hover, html.dark #gallery_btn:hover {
   background-color: #353535;
 }
 
-html.dark #content .title a:hover, html.dark #content h3 a:hover, html.dark #content .comment-big a:hover, html.dark #content .time_s a:hover, html.dark #sidebar .hot-list-item .acv_author a:hover, html.dark #sidebar .hot-list-item .acv_comment a:hover, html.dark #footer a:hover {
+html.dark #wrapper .jandan-tucao-close a:hover, html.dark #content .title a:hover, html.dark #content h3 a:hover, html.dark #content small a:hover, html.dark #content .comment-report-c a:hover, html.dark #content .comment-big a:hover, html.dark #content .time_s a:hover, html.dark #sidebar .hot-list-item .acv_author a:hover, html.dark #sidebar .hot-list-item .acv_comment a:hover, html.dark #footer a:hover {
   color: #d14748;
 }
 
@@ -221,6 +221,58 @@ html.dark #wrapper {
   background: 0;
 }
 
+html.dark #wrapper a.like,
+html.dark #wrapper .tucao-like,
+html.dark #wrapper .comment-like {
+  color: #c90110;
+}
+
+html.dark #wrapper a.like:hover,
+html.dark #wrapper .tucao-like:hover,
+html.dark #wrapper .comment-like:hover {
+  color: #d14748;
+}
+
+html.dark #wrapper a.unlike,
+html.dark #wrapper a.tucao-unlike .comment-unlike {
+  color: #43659c;
+}
+
+html.dark #wrapper a.unlike:hover,
+html.dark #wrapper a.tucao-unlike .comment-unlike:hover {
+  color: #6793fc;
+}
+
+html.dark #wrapper .tucao-content {
+  color: #f2f1f4;
+}
+
+html.dark #wrapper .jandan-tucao {
+  color: #a1a1a1;
+  background: #262626;
+}
+
+html.dark #wrapper .jandan-tucao span {
+  color: #666;
+}
+
+html.dark #wrapper .jandan-tucao .tucao-form,
+html.dark #wrapper .jandan-tucao .tucao-content {
+  color: #a1a1a1;
+}
+
+html.dark #wrapper .jandan-tucao .tucao-hot {
+  background-color: #343434;
+}
+
+html.dark #wrapper .jandan-tucao .tucao-hot .tucao-hot-title {
+  background-color: #a1a1a1;
+}
+
+html.dark #wrapper .jandan-tucao .tucao-hot .tucao-row {
+  background-color: #1a1a1a;
+}
+
 html.dark #body {
   background: #1a1a1a;
   border-color: #343434;
@@ -244,6 +296,10 @@ html.dark #content .comment-link {
 
 html.dark #content .comment-big a {
   color: #a1a1a1;
+}
+
+html.dark #content .tucao-btn:hover {
+  color: #d14748;
 }
 
 html.dark #content .post {
@@ -271,6 +327,10 @@ html.dark #content .post h2 a:visited {
   color: #7b0001;
 }
 
+html.dark #content .row {
+  color: #a1a1a1;
+}
+
 html.dark #content blockquote {
   color: #a1a1a1;
   background-color: #262626;
@@ -279,6 +339,22 @@ html.dark #content blockquote {
 html.dark #content .tucao-form label,
 html.dark #content #commentform label {
   color: #a1a1a1;
+}
+
+html.dark #content .hot-tabs .hot-tab {
+  background-color: #262626;
+}
+
+html.dark #content .hot-tabs .hot-tab a {
+  color: #a1a1a1;
+}
+
+html.dark #content .hot-tabs .hot-tab:hover, html.dark #content .hot-tabs .hot-tab.current-tab {
+  background-color: #5e5e5e;
+}
+
+html.dark #content .hot-tabs .hot-tab:hover a, html.dark #content .hot-tabs .hot-tab.current-tab a {
+  color: #f2f1f4;
 }
 
 html.dark #sidebar {
@@ -338,22 +414,6 @@ html.dark #sidebar .hot-list-item .acv_comment {
   background-color: transparent;
 }
 
-html.dark #sidebar .hot-list-item .comment-like {
-  color: #c90110;
-}
-
-html.dark #sidebar .hot-list-item .comment-like:hover {
-  color: #d14748;
-}
-
-html.dark #sidebar .hot-list-item .comment-unlike {
-  color: #43659c;
-}
-
-html.dark #sidebar .hot-list-item .comment-unlike:hover {
-  color: #6793fc;
-}
-
 html.dark #sidebar #float ul {
   background-color: #1a1a1a;
 }
@@ -361,6 +421,18 @@ html.dark #sidebar #float ul {
 html.dark #footer {
   background-color: #1a1a1a;
   border-color: #343434;
+}
+
+html.dark #tucao-gg {
+  border-color: #343434 !important;
+}
+
+html.dark #tucao-gg * {
+  border-color: #343434 !important;
+}
+
+html.dark #gallery_btn {
+  border: 1px solid #343434;
 }
 
 #images_tmpl {

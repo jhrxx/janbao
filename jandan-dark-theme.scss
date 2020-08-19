@@ -226,6 +226,51 @@ html.dark {
   }
   #wrapper {
     background: 0;
+    .jandan-tucao-close{
+      @extend %link;
+    }
+    a.like,
+    .tucao-like,
+    .comment-like {
+      color: $monza;
+      &:hover {
+        color: $link;
+      }
+    }
+    a.unlike,
+    a.tucao-unlike
+    .comment-unlike {
+      color: $san-marino;
+      &:hover {
+        color: $corn-blue;
+      }
+    }
+    .tucao-content{
+      color: $cultured;
+    }
+    .jandan-tucao{
+      color: $quick-silver;
+      background: $gray-bg;
+      span {
+        color: $a;
+      }
+      .tucao-form,
+      .tucao-content{
+        color: $quick-silver;
+      }
+      .tucao-hot{
+        background-color: $border;
+        .tucao-hot-title{
+          background-color: $quick-silver;
+        }
+        .tucao-row {
+          background-color: $cod-gray;
+        }
+      }
+      button[type=button] {
+        @extend %dark-btn;
+      }
+    }
   }
   #body {
     background: $dark-bg;
@@ -247,9 +292,14 @@ html.dark {
       color: $quick-silver;
     }
     h3,
+    small,
+    .comment-report-c,
     .comment-big,
     .time_s {
       @extend %link;
+    }
+    .tucao-btn:hover {
+      color: $link;
     }
     .post {
       color: $quick-silver;
@@ -273,6 +323,9 @@ html.dark {
         }
       }
     }
+    .row{
+      color: $quick-silver;
+    }
     .wp-pagenavi a {
       @extend %dark-btn;
     }
@@ -280,11 +333,11 @@ html.dark {
       color: $quick-silver;
       background-color: $gray-bg;
     }
-    // .cp-pagenavi {
-    //   & > a {
-    //     @extend %dark-btn;
-    //   }
-    // }
+    .cp-pagenavi {
+      & > a {
+        @extend %dark-btn;
+      }
+    }
     .tucao-form,
     #commentform {
       label {
@@ -296,6 +349,21 @@ html.dark {
       }
       input[type="submit"] {
         @extend %dark-btn;
+      }
+    }
+    .hot-tabs{
+      .hot-tab{
+        background-color: $gray-bg;
+        a {
+          color: $quick-silver;
+        }
+        &:hover,
+        &.current-tab {
+          background-color: $davys-grey;
+          a {
+            color: $cultured;
+          }
+        }
       }
     }
   }
@@ -347,18 +415,6 @@ html.dark {
       .acv_comment {
         background-color: transparent;
         @extend %link;
-      }
-      .comment-like {
-        color: $monza;
-        &:hover {
-          color: $link;
-        }
-      }
-      .comment-unlike {
-        color: $san-marino;
-        &:hover {
-          color: $corn-blue;
-        }
       }
     }
 
@@ -416,13 +472,20 @@ html.dark {
     background-color: $dark-bg;
     border-color: $border;
   }
+  #tucao-gg {
+    border-color: $border !important;
+    * {
+      border-color: $border !important;
+    } 
+  }
   // #box ul {
   //   background-color: $dark-bg;
   // }
 
-  // #gallery_btn {
-  //   @extend %dark-btn;
-  // }
+  #gallery_btn {
+    @extend %dark-btn;
+    border: 1px solid $border;
+  }
 
   // #content .post blockquote {
   //   color: $l;
