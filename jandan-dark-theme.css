@@ -23,14 +23,14 @@ html.dark #content #commentform textarea {
   background-color: #444;
 }
 
-html.dark #wrapper .jandan-tucao button[type=button], html.dark #content .wp-pagenavi a, html.dark #content .cp-pagenavi > a, html.dark #content .tucao-form input[type="submit"],
+html.dark #wrapper .jandan-tucao button[type="button"], html.dark #content .wp-pagenavi a, html.dark #content .cp-pagenavi > a, html.dark #content .tucao-form input[type="submit"],
 html.dark #content #commentform input[type="submit"], html.dark #sidebar #cse-search-box button, html.dark #gallery_btn {
   color: #666;
   border: 0;
   background-color: #262626;
 }
 
-html.dark #wrapper .jandan-tucao button:hover[type=button], html.dark #content .wp-pagenavi a:hover, html.dark #content .cp-pagenavi > a:hover, html.dark #content .tucao-form input:hover[type="submit"],
+html.dark #wrapper .jandan-tucao button:hover[type="button"], html.dark #content .wp-pagenavi a:hover, html.dark #content .cp-pagenavi > a:hover, html.dark #content .tucao-form input:hover[type="submit"],
 html.dark #content #commentform input:hover[type="submit"], html.dark #sidebar #cse-search-box button:hover, html.dark #gallery_btn:hover {
   background-color: #353535;
 }
@@ -429,6 +429,18 @@ html.dark #tucao-gg {
 
 html.dark #tucao-gg * {
   border-color: #343434 !important;
+}
+
+html.dark #nav_top {
+  background-color: #434343;
+}
+
+html.dark #nav_top span {
+  color: #a1a1a1;
+}
+
+html.dark #nav_top:hover span {
+  color: #f2f1f4;
 }
 
 html.dark #gallery_btn {

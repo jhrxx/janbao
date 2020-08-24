@@ -235,7 +235,7 @@ function generateEmotions() {
         }" title="${value.label}">
             <div class="jdedit-button jdedit-icon jdedit-icon-${
         value.id
-        }"><img src="${value.url}" title="${value.label}"></div></li>`;
+        }"><img referrerpolicy="no-referrer" src="${value.url}" title="${value.label}"></div></li>`;
     })
     .join("");
 }
@@ -305,7 +305,7 @@ function appendEmotionbar(textarea) {
       el.addEventListener("click", () => {
         const img = el.children[0].children[0];
         const { src, title } = img;
-        insertAtCaret(textarea, `<img src="${src}" title="${title}" />`);
+        insertAtCaret(textarea, `<img referrerpolicy="no-referrer" src="${src}" title="${title}" />`);
       });
     });
 }

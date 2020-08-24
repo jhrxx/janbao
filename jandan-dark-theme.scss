@@ -226,7 +226,7 @@ html.dark {
   }
   #wrapper {
     background: 0;
-    .jandan-tucao-close{
+    .jandan-tucao-close {
       @extend %link;
     }
     a.like,
@@ -238,36 +238,35 @@ html.dark {
       }
     }
     a.unlike,
-    a.tucao-unlike
-    .comment-unlike {
+    a.tucao-unlike .comment-unlike {
       color: $san-marino;
       &:hover {
         color: $corn-blue;
       }
     }
-    .tucao-content{
+    .tucao-content {
       color: $cultured;
     }
-    .jandan-tucao{
+    .jandan-tucao {
       color: $quick-silver;
       background: $gray-bg;
       span {
         color: $a;
       }
       .tucao-form,
-      .tucao-content{
+      .tucao-content {
         color: $quick-silver;
       }
-      .tucao-hot{
+      .tucao-hot {
         background-color: $border;
-        .tucao-hot-title{
+        .tucao-hot-title {
           background-color: $quick-silver;
         }
         .tucao-row {
           background-color: $cod-gray;
         }
       }
-      button[type=button] {
+      button[type="button"] {
         @extend %dark-btn;
       }
     }
@@ -323,7 +322,7 @@ html.dark {
         }
       }
     }
-    .row{
+    .row {
       color: $quick-silver;
     }
     .wp-pagenavi a {
@@ -351,8 +350,8 @@ html.dark {
         @extend %dark-btn;
       }
     }
-    .hot-tabs{
-      .hot-tab{
+    .hot-tabs {
+      .hot-tab {
         background-color: $gray-bg;
         a {
           color: $quick-silver;
@@ -476,7 +475,16 @@ html.dark {
     border-color: $border !important;
     * {
       border-color: $border !important;
-    } 
+    }
+  }
+  #nav_top {
+    background-color: $bg;
+    span {
+      color: $quick-silver;
+    }
+    &:hover span {
+      color: $cultured;
+    }
   }
   // #box ul {
   //   background-color: $dark-bg;
